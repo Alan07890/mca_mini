@@ -1,0 +1,98 @@
+/* ==========================================================================
+   DASHBOARD STYLES
+   ========================================================================== */
+
+.dashboard-shell{ display: grid; grid-template-columns: 264px 1fr; min-height: 100vh; padding-top: var(--nav-h); }
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  border-right: 1px solid var(--border); background: var(--surface);
+  padding: 32px 20px; position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h));
+  display: flex; flex-direction: column; gap: 6px; overflow-y: auto;
+}
+.sidebar-profile{ display: flex; align-items: center; gap: 12px; padding: 10px 12px 22px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+.sidebar-profile .avatar{ width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--leaf), var(--pod)); flex-shrink: 0; }
+.sidebar-profile strong{ display: block; font-size: 0.92rem; } .sidebar-profile span{ font-size: 0.78rem; color: var(--text-muted); }
+.sidebar-label{ font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 14px 12px 6px; }
+.sidebar a{
+  display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: var(--radius-sm);
+  font-size: 0.9rem; font-weight: 500; color: var(--text-muted); transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.sidebar a .ic{ font-size: 1.05rem; width: 22px; text-align: center; }
+.sidebar a:hover{ background: var(--pod-soft); color: var(--forest); }
+.sidebar a.active{ background: var(--forest); color: #fff; }
+[data-theme="dark"] .sidebar a:hover{ color: var(--pod); }
+[data-theme="dark"] .sidebar a.active{ background: var(--leaf); }
+
+/* ---------- Main Content ---------- */
+.dash-main{ padding: 36px; max-width: 100%; overflow-x: hidden; }
+.dash-topbar{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 16px; }
+.dash-topbar h1{ font-size: 1.7rem; color: var(--forest); }
+[data-theme="dark"] .dash-topbar h1{ color: var(--pod); }
+.dash-topbar p{ color: var(--text-muted); font-size: 0.92rem; margin-top: 4px; }
+
+.dash-grid{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-bottom: 28px; }
+.dash-grid.cols-3{ grid-template-columns: repeat(3, 1fr); }
+.dash-grid.split{ grid-template-columns: 2fr 1fr; }
+
+/* Weather Cards */
+.weather-card{
+  padding: 22px; border-radius: var(--radius-md); color: #fff;
+  background: linear-gradient(150deg, var(--forest), #2A5644); position: relative; overflow: hidden;
+}
+.weather-card .day{ font-size: 0.8rem; color: var(--pod); text-transform: uppercase; letter-spacing: 0.05em; }
+.weather-card .ic{ font-size: 2rem; margin: 10px 0; }
+.weather-card .t{ font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; }
+.weather-card .cond{ font-size: 0.8rem; color: rgba(255,255,255,0.72); }
+
+/* Stat / KPI Cards */
+.kpi-card{ padding: 22px; }
+.kpi-top{ display: flex; justify-content: space-between; align-items: flex-start; }
+.kpi-icon{ width: 42px; height: 42px; border-radius: 12px; background: var(--pod-soft); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.kpi-value{ font-family: var(--font-mono); font-size: 1.9rem; font-weight: 700; margin-top: 16px; color: var(--forest); }
+[data-theme="dark"] .kpi-value{ color: var(--pod); }
+.kpi-label{ color: var(--text-muted); font-size: 0.85rem; margin-top: 2px; }
+.kpi-trend{ font-size: 0.78rem; font-weight: 700; }
+.kpi-trend.up{ color: var(--leaf); } .kpi-trend.down{ color: var(--danger); }
+
+/* Disease Alerts */
+.alert-item{ display: flex; gap: 14px; padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 12px; align-items: flex-start; }
+.alert-item .dot{ width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.alert-item.high .dot{ background: var(--danger); } .alert-item.medium .dot{ background: var(--spice); } .alert-item.low .dot{ background: var(--leaf); }
+.alert-item h4{ font-size: 0.92rem; margin-bottom: 3px; } .alert-item p{ font-size: 0.82rem; color: var(--text-muted); }
+.alert-item time{ font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; }
+
+/* Crop Health Cards */
+.crop-card{ padding: 20px; }
+.crop-card .top{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.health-bar{ height: 8px; border-radius: 4px; background: var(--pod-soft); overflow: hidden; margin-top: 10px; }
+.health-bar span{ display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--leaf), var(--pod)); }
+
+/* Analytics Chart (CSS bar chart) */
+.chart-card{ padding: 26px; }
+.chart-bars{ display: flex; align-items: flex-end; gap: 14px; height: 200px; margin-top: 24px; }
+.chart-bars .bar-wrap{ flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 8px; }
+.chart-bars .bar{ width: 100%; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, var(--leaf-light), var(--leaf)); transition: height 1s var(--ease); }
+.chart-bars .lbl{ font-size: 0.72rem; color: var(--text-muted); }
+
+/* Notifications Panel */
+.notif-item{ display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.notif-item:last-child{ border-bottom: none; }
+.notif-dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--spice); margin-top: 7px; flex-shrink: 0; }
+.notif-item.read .notif-dot{ background: var(--border-strong); }
+.notif-item p{ font-size: 0.86rem; } .notif-item time{ font-size: 0.72rem; color: var(--text-muted); }
+
+/* Calendar Widget */
+.calendar-widget{ padding: 24px; }
+.cal-head{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.cal-head button{ width: 30px; height: 30px; border-radius: 50%; background: var(--pod-soft); }
+.cal-grid{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+.cal-grid .dow{ font-size: 0.72rem; color: var(--text-muted); font-weight: 700; padding-bottom: 6px; }
+.cal-grid .day{ padding: 9px 0; border-radius: 8px; font-size: 0.85rem; cursor: pointer; transition: background 0.2s var(--ease); position: relative; }
+.cal-grid .day:hover{ background: var(--pod-soft); }
+.cal-grid .day.today{ background: var(--forest); color: #fff; font-weight: 700; }
+.cal-grid .day.event::after{ content: ""; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--spice); }
+.cal-grid .day.muted{ color: var(--text-muted); opacity: 0.4; }
+.cal-events{ margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.cal-event{ display: flex; gap: 10px; align-items: center; font-size: 0.85rem; }
+.cal-event .bar{ width: 3px; height: 24px; border-radius: 2px; background: var(--spice); }
