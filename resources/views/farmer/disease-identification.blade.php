@@ -135,6 +135,7 @@
         line-height: 1.6;
     }
 
+
     /* =========================================================
        STEP INDICATOR
     ========================================================= */
@@ -298,84 +299,37 @@
     }
 
     /* =========================================================
-       TOOLBAR
+       SYMPTOM HEADER / COUNT
     ========================================================= */
 
-    .did-toolbar {
+    .did-selection-head-row {
         display: flex;
-
-        gap: 16px;
-
-        flex-wrap: wrap;
-
-        align-items: center;
-
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 18px;
         margin-bottom: 22px;
     }
 
-    .did-search {
-        position: relative;
-
-        flex: 1;
-
-        min-width: 220px;
-    }
-
-    .did-search input {
-        width: 100%;
-
-        padding:
-            13px 18px 13px 44px;
-
-        border-radius: 12px;
-
-        border:
-            1px solid rgba(255,255,255,0.1);
-
-        background:
-            rgba(0,0,0,0.25);
-
-        color: var(--did-cream);
-
-        font-size: 0.95rem;
-
-        outline: none;
-
-        transition:
-            border-color .3s ease,
-            box-shadow .3s ease;
-    }
-
-    .did-search input:focus {
-        border-color:
-            var(--did-gold);
-
-        box-shadow:
-            0 0 0 3px
-            rgba(255,213,79,0.15);
-    }
-
-    .did-search i {
-        position: absolute;
-
-        left: 16px;
-
-        top: 50%;
-
-        transform:
-            translateY(-50%);
-
-        color:
-            var(--did-sage);
+    .did-selection-head-copy .did-sub {
+        margin-bottom: 0;
     }
 
     .did-result-count {
-        color:
-            var(--did-sage);
-
-        font-size: 0.85rem;
-
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: var(--did-sage);
+        background: rgba(129, 199, 132, 0.07);
+        border: 1px solid rgba(129, 199, 132, 0.14);
+        font-size: 0.78rem;
+        font-weight: 600;
         white-space: nowrap;
+    }
+
+    .did-result-count i {
+        color: var(--did-gold);
     }
 
     /* =========================================================
@@ -1546,6 +1500,798 @@
             200px;
     }
 
+
+    /* =========================================================
+       AI IDENTIFICATION RESULT
+    ========================================================= */
+
+    .did-ai-warning {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 24px;
+        padding: 16px 18px;
+        border: 1px solid rgba(255,213,79,0.28);
+        border-left: 4px solid var(--did-gold);
+        border-radius: 14px;
+        background: rgba(255,213,79,0.06);
+    }
+
+    .did-ai-warning-icon {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(255,213,79,0.12);
+        color: var(--did-gold);
+    }
+
+    .did-ai-warning strong {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--did-gold);
+        font-size: 0.92rem;
+    }
+
+    .did-ai-warning p {
+        margin: 0;
+        color: var(--did-sage);
+        font-size: 0.82rem;
+        line-height: 1.55;
+    }
+
+    .did-ai-source {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 8px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(129,199,132,0.10);
+        border: 1px solid rgba(129,199,132,0.24);
+        color: var(--did-light-green);
+        font-size: 0.78rem;
+    }
+
+    .did-ai-confidence {
+        margin-top: 10px;
+        color: var(--did-sage);
+        font-size: 0.88rem;
+    }
+
+    .did-ai-confidence strong {
+        color: var(--did-gold);
+    }
+
+    .did-ai-reason {
+        margin-top: 22px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: rgba(129,199,132,0.06);
+        border: 1px solid rgba(129,199,132,0.16);
+    }
+
+    .did-ai-reason-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+        color: var(--did-light-green);
+        font-size: 0.92rem;
+        font-weight: 600;
+    }
+
+    .did-ai-reason-title i {
+        color: var(--did-gold);
+    }
+
+    .did-ai-reason p {
+        margin: 0;
+        color: var(--did-sage);
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* =========================================================
+       AI IMAGE ANALYSIS — CREATIVE UPLOAD UI
+    ========================================================= */
+
+    .did-image-analysis-card {
+        position: relative;
+        overflow: hidden;
+        margin-top: 28px;
+        border: 1px solid rgba(129, 199, 132, 0.17);
+        background:
+            radial-gradient(circle at 88% 12%, rgba(255, 213, 79, 0.08), transparent 23%),
+            radial-gradient(circle at 8% 90%, rgba(76, 175, 80, 0.10), transparent 28%),
+            linear-gradient(145deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+    }
+
+    .did-image-analysis-card::before,
+    .did-image-analysis-card::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: .42;
+    }
+
+    .did-image-analysis-card::before {
+        width: 190px;
+        height: 190px;
+        right: -88px;
+        top: 48px;
+        border: 1px solid rgba(255, 213, 79, 0.11);
+    }
+
+    .did-image-analysis-card::after {
+        width: 135px;
+        height: 135px;
+        left: -70px;
+        bottom: -62px;
+        border: 1px solid rgba(129, 199, 132, 0.13);
+    }
+
+    .did-image-analysis-head {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 8px;
+    }
+
+    .did-image-analysis-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .did-image-analysis-icon {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        color: var(--did-gold);
+        background:
+            linear-gradient(145deg, rgba(255,213,79,0.12), rgba(76,175,80,0.08));
+        border: 1px solid rgba(255,213,79,0.18);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+    }
+
+    .did-eyebrow {
+        margin-bottom: 2px;
+        color: rgba(169,201,174,0.65);
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .13em;
+    }
+
+    .did-image-analysis-head h2 {
+        margin: 0;
+    }
+
+    .did-image-analysis-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        color: var(--did-light-green);
+        background: rgba(129,199,132,0.07);
+        border: 1px solid rgba(129,199,132,0.14);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+        white-space: nowrap;
+    }
+
+    .did-image-analysis-sub {
+        position: relative;
+        z-index: 2;
+        max-width: 780px;
+        color: var(--did-sage);
+        font-size: 0.88rem;
+        line-height: 1.65;
+        margin-bottom: 18px;
+    }
+
+    .did-image-upload-area {
+        position: relative;
+        z-index: 2;
+        min-height: 245px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 26px;
+        border: 1px solid rgba(129,199,132,0.17);
+        background:
+            radial-gradient(circle at 50% 35%, rgba(255,255,255,0.026), transparent 34%),
+            linear-gradient(180deg, rgba(255,255,255,0.016), rgba(0,0,0,0.13));
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.012),
+            0 18px 40px rgba(0,0,0,0.12);
+        overflow: hidden;
+        cursor: pointer;
+        transition:
+            transform .25s ease,
+            border-color .25s ease,
+            box-shadow .25s ease,
+            background .25s ease;
+    }
+
+    .did-image-upload-area::before {
+        content: '';
+        position: absolute;
+        inset: 14px;
+        border-radius: 20px;
+        border: 1px dashed rgba(129,199,132,0.13);
+        pointer-events: none;
+    }
+
+    .did-image-upload-area:hover,
+    .did-image-upload-area.dragover {
+        transform: translateY(-2px);
+        border-color: rgba(255,213,79,0.34);
+        background:
+            radial-gradient(circle at 50% 36%, rgba(255,213,79,0.055), transparent 34%),
+            linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.10));
+        box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.012),
+            0 22px 48px rgba(0,0,0,0.20);
+    }
+
+    .did-image-glow {
+        position: absolute;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        filter: blur(25px);
+        pointer-events: none;
+        opacity: .10;
+    }
+
+    .did-image-glow.glow-one {
+        top: 8px;
+        left: 14%;
+        background: #81C784;
+    }
+
+    .did-image-glow.glow-two {
+        right: 10%;
+        bottom: 10px;
+        background: #FFD54F;
+    }
+
+    .did-image-upload-content {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 34px 24px;
+    }
+
+    .did-image-camera-ring {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        margin-bottom: 16px;
+        display: grid;
+        place-items: center;
+    }
+
+    .did-image-camera-ring::before,
+    .did-image-camera-ring::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(129,199,132,0.13);
+    }
+
+    .did-image-camera-ring::before {
+        inset: 0;
+    }
+
+    .did-image-camera-ring::after {
+        inset: 10px;
+        border-color: rgba(255,213,79,0.17);
+    }
+
+    .did-image-camera-core {
+        position: relative;
+        z-index: 2;
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        color: var(--did-light-green);
+        background:
+            linear-gradient(145deg, rgba(129,199,132,0.15), rgba(255,213,79,0.07));
+        border: 1px solid rgba(129,199,132,0.21);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.22);
+    }
+
+    .did-image-upload-content h3 {
+        margin: 0 0 7px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--did-cream);
+    }
+
+    .did-image-upload-content > p {
+        margin: 0 0 14px;
+        color: var(--did-sage);
+        font-size: 0.8rem;
+    }
+
+    .did-image-upload-tags {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 17px;
+    }
+
+    .did-image-upload-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 9px;
+        border-radius: 999px;
+        color: rgba(241,248,233,0.70);
+        background: rgba(0,0,0,0.15);
+        border: 1px solid rgba(255,255,255,0.07);
+        font-size: 0.68rem;
+        font-weight: 600;
+    }
+
+    .did-image-upload-tag i {
+        color: var(--did-gold);
+        font-size: 0.62rem;
+    }
+
+    .did-image-select-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 17px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,213,79,0.28);
+        background: linear-gradient(135deg, rgba(255,213,79,0.13), rgba(255,213,79,0.045));
+        color: var(--did-gold);
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+        transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .did-image-select-btn:hover {
+        transform: translateY(-1px);
+        background: linear-gradient(135deg, rgba(255,213,79,0.18), rgba(255,213,79,0.07));
+        box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+    }
+
+    .did-image-drop-hint {
+        margin-top: 10px;
+        color: rgba(169,201,174,0.48);
+        font-size: 0.66rem;
+    }
+
+    #didImageInput {
+        display: none;
+    }
+
+    .did-image-preview-wrap {
+        position: relative;
+        z-index: 2;
+        display: none;
+        grid-template-columns: minmax(190px, 330px) 1fr;
+        gap: 18px;
+        align-items: center;
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 20px;
+        border: 1px solid rgba(129,199,132,0.13);
+        background: rgba(0,0,0,0.13);
+    }
+
+    .did-image-preview-wrap.show {
+        display: grid;
+    }
+
+    .did-image-preview-frame {
+        position: relative;
+        overflow: hidden;
+        min-height: 220px;
+        border-radius: 16px;
+        background: #091a12;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .did-image-preview {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .did-image-ready-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 8px;
+        border-radius: 999px;
+        color: var(--did-light-green);
+        background: rgba(4,17,11,0.74);
+        border: 1px solid rgba(129,199,132,0.18);
+        font-size: 0.62rem;
+        font-weight: 700;
+    }
+
+    .did-image-preview-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 11px;
+        min-width: 0;
+    }
+
+    .did-image-preview-kicker {
+        color: rgba(169,201,174,0.55);
+        font-size: 0.66rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .11em;
+    }
+
+    .did-image-file-name {
+        color: var(--did-cream);
+        font-size: 0.9rem;
+        font-weight: 600;
+        word-break: break-word;
+    }
+
+    .did-image-note {
+        max-width: 540px;
+        color: var(--did-sage);
+        font-size: 0.75rem;
+        line-height: 1.55;
+    }
+
+    .did-image-remove-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 999px;
+        padding: 8px 12px;
+        background: rgba(255,255,255,0.025);
+        color: var(--did-sage);
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color .2s ease, background .2s ease, color .2s ease;
+    }
+
+    .did-image-remove-btn:hover {
+        border-color: rgba(220,90,90,0.30);
+        background: rgba(220,90,90,0.05);
+        color: #efaaaa;
+    }
+
+
+    /* =========================================================
+       IMAGE AI ANALYSIS / CONFIRMATION
+    ========================================================= */
+
+    .did-image-ai-actions {
+        width: 100%;
+        margin-top: 2px;
+    }
+
+    .did-image-ai-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid rgba(255,213,79,0.28);
+        border-radius: 12px;
+        background: linear-gradient(
+            135deg,
+            rgba(255,213,79,0.14),
+            rgba(76,175,80,0.08)
+        );
+        color: var(--did-gold);
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.84rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+            transform .2s ease,
+            background .2s ease,
+            box-shadow .2s ease,
+            opacity .2s ease;
+    }
+
+    .did-image-ai-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: linear-gradient(
+            135deg,
+            rgba(255,213,79,0.19),
+            rgba(76,175,80,0.11)
+        );
+        box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+    }
+
+    .did-image-ai-btn:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .did-image-ai-btn .spinner {
+        display: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.28);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: did-spin .8s linear infinite;
+    }
+
+    .did-image-ai-btn.loading .spinner {
+        display: inline-block;
+    }
+
+    .did-image-ai-btn.loading .btn-icon {
+        display: none;
+    }
+
+    .did-image-stage {
+        display: grid;
+        gap: 16px;
+    }
+
+    .did-image-observation {
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: rgba(129,199,132,0.055);
+        border: 1px solid rgba(129,199,132,0.14);
+    }
+
+    .did-image-observation h4 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 8px;
+        color: var(--did-light-green);
+        font-size: .94rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .did-image-observation h4 i {
+        color: var(--did-gold);
+    }
+
+    .did-image-observation p {
+        margin: 0;
+        color: var(--did-sage);
+        font-size: .88rem;
+        line-height: 1.6;
+    }
+
+    .did-image-meta-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .did-image-meta-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.035);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: var(--did-sage);
+        font-size: .70rem;
+        font-weight: 600;
+    }
+
+    .did-image-meta-pill.good i {
+        color: var(--did-light-green);
+    }
+
+    .did-image-meta-pill.warn i {
+        color: var(--did-gold);
+    }
+
+    .did-image-symptoms {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .did-image-symptom-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: rgba(255,213,79,0.06);
+        border: 1px solid rgba(255,213,79,0.18);
+        color: var(--did-cream);
+        font-size: .76rem;
+    }
+
+    .did-image-candidate {
+        padding: 13px 15px;
+        border-radius: 13px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .did-image-candidate + .did-image-candidate {
+        margin-top: 9px;
+    }
+
+    .did-image-candidate-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+    }
+
+    .did-image-candidate-name {
+        color: var(--did-cream);
+        font-size: .84rem;
+        font-weight: 700;
+    }
+
+    .did-image-candidate-confidence {
+        color: var(--did-light-green);
+        font-size: .70rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .did-image-candidate p {
+        margin: 0;
+        color: var(--did-sage);
+        font-size: .78rem;
+        line-height: 1.55;
+    }
+
+    .did-image-question-list {
+        display: grid;
+        gap: 10px;
+    }
+
+    .did-image-question {
+        padding: 14px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.022);
+        border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .did-image-question-text {
+        color: var(--did-cream);
+        font-size: .83rem;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .did-image-question-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+    }
+
+    .did-image-answer-btn {
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 999px;
+        padding: 7px 11px;
+        background: rgba(255,255,255,0.025);
+        color: var(--did-sage);
+        font-size: .70rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .did-image-answer-btn:hover {
+        border-color: rgba(255,213,79,0.25);
+        color: var(--did-cream);
+        background: rgba(255,213,79,0.05);
+    }
+
+    .did-image-answer-btn.selected {
+        border-color: rgba(255,213,79,0.40);
+        background: rgba(255,213,79,0.10);
+        color: var(--did-gold);
+    }
+
+    .did-image-final-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 14px 16px;
+        margin-top: 16px;
+        border: none;
+        border-radius: 13px;
+        background: linear-gradient(
+            120deg,
+            var(--did-primary),
+            var(--did-secondary)
+        );
+        color: #fff;
+        font-size: .92rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 12px 28px rgba(27,94,32,0.28);
+        transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+
+    .did-image-final-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 34px rgba(27,94,32,0.38);
+    }
+
+    .did-image-final-btn:disabled {
+        opacity: .50;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .did-image-final-note {
+        margin-top: 9px;
+        color: rgba(169,201,174,.58);
+        font-size: .70rem;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 575px) {
+        .did-image-candidate-head {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .did-image-question-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .did-image-answer-btn {
+            width: 100%;
+        }
+    }
+
     /* =========================================================
        MOBILE
     ========================================================= */
@@ -1567,17 +2313,32 @@
                 column;
         }
 
-        .did-toolbar {
-            flex-direction:
-                column;
-
-            align-items:
-                stretch;
+        .did-selection-head-row {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .did-search {
-            width:
-                100%;
+        .did-image-analysis-head {
+            align-items: flex-start;
+        }
+
+        .did-image-analysis-badge {
+            margin-top: 2px;
+        }
+
+        .did-image-upload-area {
+            min-height: 225px;
+        }
+
+        .did-image-preview-wrap.show {
+            grid-template-columns: 1fr;
+        }
+
+        .did-image-preview,
+        .did-image-preview-frame {
+            height: 230px;
+            min-height: 230px;
         }
 
         .did-alt-card {
@@ -1906,42 +2667,24 @@
             id="didSelectionCard"
         >
 
-            <h2>
-                What symptoms are you seeing?
-            </h2>
+            <div class="did-selection-head-row">
 
-            <div class="did-sub">
-                Tap a symptom image to select it.
-            </div>
+                <div class="did-selection-head-copy">
+                    <h2>
+                        What symptoms are you seeing?
+                    </h2>
 
-
-            <!-- Search -->
-
-            <div class="did-toolbar">
-
-                <div class="did-search">
-
-                    <i
-                        class="fa-solid fa-magnifying-glass"
-                        aria-hidden="true"
-                    ></i>
-
-                    <input
-                        type="text"
-                        id="didSearchInput"
-                        placeholder="Search symptoms..."
-                        aria-label="Search symptoms"
-                        autocomplete="off"
-                    >
-
+                    <div class="did-sub">
+                        Tap a symptom image to select it.
+                    </div>
                 </div>
-
 
                 <div
                     class="did-result-count"
                     id="didResultCount"
                 >
-                    {{ $symptoms->count() }} symptoms
+                    <i class="fa-solid fa-layer-group"></i>
+                    {{ $symptoms->count() }} symptoms available
                 </div>
 
             </div>
@@ -2028,14 +2771,190 @@
 
             </div>
 
+        </div>
 
-            <p
-                class="did-detail-text"
-                id="didNoResults"
-                style="display: none;"
+
+        <!-- =====================================================
+             AI IMAGE ANALYSIS — CREATIVE UPLOAD
+        ====================================================== -->
+
+        <div
+            class="did-card did-image-analysis-card"
+            id="didImageAnalysisCard"
+        >
+
+            <div class="did-image-analysis-head">
+
+                <div class="did-image-analysis-title">
+
+                    <div class="did-image-analysis-icon">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+
+                    <div>
+                        <div class="did-eyebrow">
+                            Optional visual check
+                        </div>
+
+                        <h2>
+                            Let AI Inspect the Plant
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="did-image-analysis-badge">
+                    <i class="fa-solid fa-bolt"></i>
+                    AI VISION
+                </div>
+
+            </div>
+
+
+            <div class="did-image-analysis-sub">
+                Cannot recognise the symptom from the cards? Show the AI the
+                affected plant area. A clear image will be used later as visual
+                evidence alongside the symptoms you confirm.
+            </div>
+
+
+            <div
+                class="did-image-upload-area"
+                id="didImageUploadArea"
+                role="button"
+                tabindex="0"
+                aria-label="Upload a cardamom plant photo"
             >
-                No symptoms match your search.
-            </p>
+
+                <div class="did-image-glow glow-one"></div>
+                <div class="did-image-glow glow-two"></div>
+
+                <div class="did-image-upload-content">
+
+                    <div class="did-image-camera-ring">
+                        <div class="did-image-camera-core">
+                            <i class="fa-solid fa-camera-retro"></i>
+                        </div>
+                    </div>
+
+                    <h3>
+                        Show the affected area
+                    </h3>
+
+                    <p>
+                        Drop a photo here or open your gallery
+                    </p>
+
+                    <div class="did-image-upload-tags">
+
+                        <span class="did-image-upload-tag">
+                            <i class="fa-solid fa-leaf"></i>
+                            Leaf
+                        </span>
+
+                        <span class="did-image-upload-tag">
+                            <i class="fa-solid fa-tree"></i>
+                            Stem
+                        </span>
+
+                        <span class="did-image-upload-tag">
+                            <i class="fa-solid fa-seedling"></i>
+                            Capsule
+                        </span>
+
+                    </div>
+
+                    <label
+                        for="didImageInput"
+                        class="did-image-select-btn"
+                    >
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        Choose Photo
+                    </label>
+
+                    <div class="did-image-drop-hint">
+                        JPG · PNG · WEBP&nbsp;&nbsp;•&nbsp;&nbsp;up to 10 MB
+                    </div>
+
+                    <input
+                        type="file"
+                        id="didImageInput"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="did-image-preview-wrap"
+                id="didImagePreviewWrap"
+            >
+
+                <div class="did-image-preview-frame">
+
+                    <img
+                        src=""
+                        alt="Selected cardamom plant"
+                        class="did-image-preview"
+                        id="didImagePreview"
+                    >
+
+                    <span class="did-image-ready-badge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        Photo ready
+                    </span>
+
+                </div>
+
+                <div class="did-image-preview-meta">
+
+                    <div class="did-image-preview-kicker">
+                        Visual evidence selected
+                    </div>
+
+                    <div
+                        class="did-image-file-name"
+                        id="didImageFileName"
+                    ></div>
+
+                    <div class="did-image-note">
+                        Keep the affected leaf, stem, flower or capsule area sharp
+                        and close enough for the AI to inspect visible patterns.
+                    </div>
+
+                    <div class="did-image-ai-actions">
+                        <button
+                            type="button"
+                            class="did-image-ai-btn"
+                            id="didAnalyzeImageBtn"
+                            disabled
+                        >
+                            <span class="btn-icon">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </span>
+
+                            <span class="spinner"></span>
+
+                            <span id="didAnalyzeImageLabel">
+                                Analyze Photo with AI
+                            </span>
+                        </button>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="did-image-remove-btn"
+                        id="didImageRemoveBtn"
+                    >
+                        <i class="fa-solid fa-rotate"></i>
+                        Change Photo
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -2068,7 +2987,7 @@
             >
 
                 <span class="did-empty-chip-hint">
-                    No symptoms selected yet — tap a photo above to begin.
+                    No symptoms selected yet — select one or more symptoms above.
                 </span>
 
             </div>
@@ -2133,11 +3052,865 @@
 
 
     /* =========================================================
+       IMAGE PRELIMINARY ANALYSIS
+    ========================================================= */
+
+    const defaultImageScanMessages = [
+        'Reading the plant image...',
+        'Inspecting visible leaf and stem patterns...',
+        'Preparing confirmation questions...'
+    ];
+
+
+    function startImageScanMessages(
+        customMessages
+    ) {
+
+        const messages =
+            Array.isArray(customMessages) &&
+            customMessages.length > 0
+                ? customMessages
+                : defaultImageScanMessages;
+
+        let index =
+            0;
+
+        clearInterval(
+            imageScanInterval
+        );
+
+        if (scanLine) {
+            scanLine.textContent =
+                messages[0];
+        }
+
+        imageScanInterval =
+            setInterval(
+                function () {
+
+                    index =
+                        (index + 1) %
+                        messages.length;
+
+                    if (scanLine) {
+                        scanLine.textContent =
+                            messages[index];
+                    }
+
+                },
+                700
+            );
+
+    }
+
+
+    function stopImageScanMessages() {
+
+        clearInterval(
+            imageScanInterval
+        );
+
+        imageScanInterval =
+            null;
+
+        if (scanLine) {
+            scanLine.textContent =
+                '';
+        }
+
+    }
+
+
+    async function analyzeSelectedImage() {
+
+        if (
+            isImageAnalyzing ||
+            !selectedImageFile
+        ) {
+            return;
+        }
+
+        isImageAnalyzing =
+            true;
+
+        if (analyzeImageBtn) {
+            analyzeImageBtn.disabled = true;
+            analyzeImageBtn.classList.add('loading');
+        }
+
+        if (analyzeImageLabel) {
+            analyzeImageLabel.textContent =
+                'Inspecting Photo...';
+        }
+
+        setStep(3);
+        startImageScanMessages();
+
+        try {
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                'image',
+                selectedImageFile
+            );
+
+            Array.from(
+                selected.keys()
+            ).forEach(
+                function (id) {
+
+                    formData.append(
+                        'symptoms[]',
+                        id
+                    );
+
+                }
+            );
+
+            const response =
+                await fetch(
+                    analyzeImageUrl,
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'X-CSRF-TOKEN':
+                                csrfToken,
+
+                            'Accept':
+                                'application/json'
+                        },
+
+                        body:
+                            formData
+                    }
+                );
+
+            let data;
+
+            try {
+                data =
+                    await response.json();
+            } catch (error) {
+                throw new Error(
+                    'The server returned an invalid response.'
+                );
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    data?.message ||
+                    `Image analysis failed with status ${response.status}.`
+                );
+            }
+
+            if (
+                !data ||
+                !data.success ||
+                !data.result
+            ) {
+                throw new Error(
+                    data?.message ||
+                    'Gemini could not analyze this image.'
+                );
+            }
+
+            preliminaryImageAnalysis =
+                data.result;
+
+            imageQuestionAnswers =
+                {};
+
+            renderImagePreliminaryResult(
+                data.result
+            );
+
+        } catch (error) {
+
+            renderError(
+                error.message ||
+                'Could not analyze the selected image.'
+            );
+
+        } finally {
+
+            stopImageScanMessages();
+
+            if (analyzeImageBtn) {
+                analyzeImageBtn.classList.remove('loading');
+                analyzeImageBtn.disabled =
+                    !selectedImageFile;
+            }
+
+            if (analyzeImageLabel) {
+                analyzeImageLabel.textContent =
+                    'Analyze Photo with AI';
+            }
+
+            isImageAnalyzing =
+                false;
+
+        }
+
+    }
+
+
+    function renderImagePreliminaryResult(
+        result
+    ) {
+
+        const visibleSymptoms =
+            Array.isArray(result.visible_symptoms)
+                ? result.visible_symptoms
+                : [];
+
+        const possibleDiseases =
+            Array.isArray(result.possible_diseases)
+                ? result.possible_diseases
+                : [];
+
+        const questions =
+            Array.isArray(result.confirmation_questions)
+                ? result.confirmation_questions
+                : [];
+
+        const imageQuality =
+            String(
+                result.image_quality ||
+                'Unknown'
+            );
+
+        const qualityIsGood =
+            /good|fair/i.test(
+                imageQuality
+            );
+
+        const visualSummary =
+            String(
+                result.visual_summary ||
+                result.visual_observations ||
+                ''
+            );
+
+        const questionHtml =
+            questions.length > 0
+                ? questions
+                    .map(
+                        function (
+                            question,
+                            index
+                        ) {
+
+                            return `
+                                <div
+                                    class="did-image-question"
+                                    data-question-index="${index}"
+                                >
+
+                                    <div class="did-image-question-text">
+                                        ${index + 1}. ${escapeHtml(question)}
+                                    </div>
+
+                                    <div class="did-image-question-options">
+
+                                        <button
+                                            type="button"
+                                            class="did-image-answer-btn"
+                                            data-answer="YES"
+                                            data-question-index="${index}"
+                                        >
+                                            YES
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="did-image-answer-btn"
+                                            data-answer="NO"
+                                            data-question-index="${index}"
+                                        >
+                                            NO
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="did-image-answer-btn"
+                                            data-answer="NOT SURE"
+                                            data-question-index="${index}"
+                                        >
+                                            NOT SURE
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            `;
+
+                        }
+                    )
+                    .join('')
+                : `
+                    <div class="did-detail-text">
+                        No additional confirmation questions were returned.
+                        The uploaded image and any symptoms you selected will
+                        still be available for the final AI analysis.
+                    </div>
+                `;
+
+        const candidatesHtml =
+            possibleDiseases.length > 0
+                ? possibleDiseases
+                    .map(
+                        function (
+                            candidate
+                        ) {
+
+                            return `
+                                <div class="did-image-candidate">
+
+                                    <div class="did-image-candidate-head">
+
+                                        <span class="did-image-candidate-name">
+                                            ${escapeHtml(
+                                                candidate?.disease_name ||
+                                                'Possible condition'
+                                            )}
+                                        </span>
+
+                                        <span class="did-image-candidate-confidence">
+                                            ${escapeHtml(
+                                                candidate?.confidence ||
+                                                'Unclear'
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                    <p>
+                                        ${escapeHtml(
+                                            candidate?.reason ||
+                                            ''
+                                        )}
+                                    </p>
+
+                                </div>
+                            `;
+
+                        }
+                    )
+                    .join('')
+                : `
+                    <div class="did-detail-text">
+                        No disease candidate was considered sufficiently
+                        supported by the visible image.
+                    </div>
+                `;
+
+        const visibleSymptomsHtml =
+            visibleSymptoms.length > 0
+                ? visibleSymptoms
+                    .map(
+                        function (
+                            symptom
+                        ) {
+
+                            return `
+                                <span class="did-image-symptom-pill">
+                                    <i class="fa-solid fa-eye"></i>
+                                    ${escapeHtml(symptom)}
+                                </span>
+                            `;
+
+                        }
+                    )
+                    .join('')
+                : `
+                    <span class="did-unmatched-pill">
+                        No clear visible symptom returned.
+                    </span>
+                `;
+
+        resultsBox.innerHTML = `
+
+            <div class="did-result-header">
+
+                <span class="tag">
+                    AI Vision — Preliminary Check
+                </span>
+
+            </div>
+
+            <div class="did-image-stage">
+
+                <div class="did-image-meta-row">
+
+                    <span class="did-image-meta-pill ${qualityIsGood ? 'good' : 'warn'}">
+                        <i class="fa-solid ${
+                            qualityIsGood
+                                ? 'fa-circle-check'
+                                : 'fa-triangle-exclamation'
+                        }"></i>
+
+                        Image quality:
+                        ${escapeHtml(imageQuality)}
+                    </span>
+
+                    <span class="did-image-meta-pill">
+                        <i class="fa-solid fa-gauge-high"></i>
+
+                        Confidence:
+                        ${escapeHtml(
+                            result.confidence ||
+                            result.overall_confidence ||
+                            'Unclear'
+                        )}
+                    </span>
+
+                    ${
+                        result.needs_better_image === true
+                            ? `
+                                <span class="did-image-meta-pill warn">
+                                    <i class="fa-solid fa-camera"></i>
+                                    A clearer photo may improve analysis
+                                </span>
+                              `
+                            : ''
+                    }
+
+                </div>
+
+                ${
+                    visualSummary
+                        ? `
+                            <div class="did-image-observation">
+
+                                <h4>
+                                    <i class="fa-solid fa-eye"></i>
+                                    What Gemini Sees
+                                </h4>
+
+                                <p>
+                                    ${escapeHtml(visualSummary)}
+                                </p>
+
+                            </div>
+                          `
+                        : ''
+                }
+
+                <div class="did-detail-block">
+
+                    <h4>
+                        <i class="fa-solid fa-microscope"></i>
+                        Visible Symptoms
+                    </h4>
+
+                    <div class="did-image-symptoms">
+                        ${visibleSymptomsHtml}
+                    </div>
+
+                </div>
+
+                <div class="did-detail-block">
+
+                    <h4>
+                        <i class="fa-solid fa-layer-group"></i>
+                        Possible Conditions
+                    </h4>
+
+                    ${candidatesHtml}
+
+                </div>
+
+                <div class="did-detail-block">
+
+                    <h4>
+                        <i class="fa-solid fa-comments"></i>
+                        Confirm What You Observe
+                    </h4>
+
+                    <div class="did-detail-text" style="margin-bottom:10px;">
+                        Answer each question with YES, NO or NOT SURE.
+                        These answers will be combined with the photo for
+                        the final AI prediction.
+                    </div>
+
+                    <div
+                        class="did-image-question-list"
+                        id="didImageQuestionList"
+                    >
+                        ${questionHtml}
+                    </div>
+
+                    <button
+                        type="button"
+                        class="did-image-final-btn"
+                        id="didFinalImagePredictBtn"
+                        ${questions.length > 0 ? 'disabled' : ''}
+                    >
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Final AI Disease Prediction
+                    </button>
+
+                    <div class="did-image-final-note">
+                        This final result is an AI-assisted decision-support
+                        suggestion, not a confirmed scientific diagnosis.
+                    </div>
+
+                </div>
+
+            </div>
+        `;
+
+        bindImageQuestionEvents();
+
+        showResults();
+
+    }
+
+
+    function bindImageQuestionEvents() {
+
+        resultsBox
+            .querySelectorAll(
+                '.did-image-answer-btn'
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        'click',
+                        function () {
+
+                            const index =
+                                String(
+                                    this.dataset.questionIndex
+                                );
+
+                            const answer =
+                                this.dataset.answer;
+
+                            imageQuestionAnswers[index] =
+                                answer;
+
+                            resultsBox
+                                .querySelectorAll(
+                                    `.did-image-answer-btn[data-question-index="${CSS.escape(index)}"]`
+                                )
+                                .forEach(
+                                    function (otherButton) {
+
+                                        otherButton.classList.remove(
+                                            'selected'
+                                        );
+
+                                    }
+                                );
+
+                            this.classList.add(
+                                'selected'
+                            );
+
+                            updateFinalImageButtonState();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        const finalButton =
+            document.getElementById(
+                'didFinalImagePredictBtn'
+            );
+
+        if (finalButton) {
+
+            finalButton.addEventListener(
+                'click',
+                predictFinalImageDisease
+            );
+
+        }
+
+    }
+
+
+    function updateFinalImageButtonState() {
+
+        const button =
+            document.getElementById(
+                'didFinalImagePredictBtn'
+            );
+
+        if (!button) {
+            return;
+        }
+
+        const totalQuestions =
+            resultsBox.querySelectorAll(
+                '.did-image-question'
+            ).length;
+
+        const answeredQuestions =
+            Object.keys(
+                imageQuestionAnswers
+            ).length;
+
+        button.disabled =
+            totalQuestions > 0 &&
+            answeredQuestions < totalQuestions;
+
+    }
+
+
+    async function predictFinalImageDisease() {
+
+        if (
+            isFinalImageSubmitting ||
+            !selectedImageFile
+        ) {
+            return;
+        }
+
+        const questions =
+            Array.isArray(
+                preliminaryImageAnalysis?.confirmation_questions
+            )
+                ? preliminaryImageAnalysis.confirmation_questions
+                : [];
+
+        const confirmedEvidence =
+            [];
+
+        selected.forEach(
+            function (data) {
+
+                confirmedEvidence.push(
+                    `Farmer selected symptom: ${data.name}`
+                );
+
+            }
+        );
+
+        questions.forEach(
+            function (
+                question,
+                index
+            ) {
+
+                const answer =
+                    imageQuestionAnswers[
+                        String(index)
+                    ];
+
+                if (!answer) {
+                    return;
+                }
+
+                confirmedEvidence.push(
+                    `${answer}: ${question}`
+                );
+
+            }
+        );
+
+        isFinalImageSubmitting =
+            true;
+
+        setStep(3);
+
+        startImageScanMessages(
+            [
+                'Combining the photo with your answers...',
+                'Re-checking the visible plant evidence...',
+                'Preparing the final AI disease suggestion...'
+            ]
+        );
+
+        resultsBox.innerHTML = `
+            <div class="did-empty-state">
+
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                <h3>
+                    Gemini is checking the complete case
+                </h3>
+
+                <p>
+                    The image, selected symptoms and your confirmations
+                    are being considered together.
+                </p>
+
+            </div>
+        `;
+
+        showResults();
+
+        try {
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                'image',
+                selectedImageFile
+            );
+
+            confirmedEvidence.forEach(
+                function (
+                    item
+                ) {
+
+                    formData.append(
+                        'confirmed_symptoms[]',
+                        item
+                    );
+
+                }
+            );
+
+            if (preliminaryImageAnalysis) {
+
+                formData.append(
+                    'preliminary_analysis',
+                    JSON.stringify(
+                        preliminaryImageAnalysis
+                    )
+                );
+
+            }
+
+            const response =
+                await fetch(
+                    predictImageUrl,
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'X-CSRF-TOKEN':
+                                csrfToken,
+
+                            'Accept':
+                                'application/json'
+                        },
+
+                        body:
+                            formData
+                    }
+                );
+
+            let data;
+
+            try {
+
+                data =
+                    await response.json();
+
+            } catch (error) {
+
+                throw new Error(
+                    'The final prediction response was invalid.'
+                );
+
+            }
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data?.message ||
+                    `Final prediction failed with status ${response.status}.`
+                );
+
+            }
+
+            renderFinalImageResult(
+                data
+            );
+
+        } catch (error) {
+
+            renderError(
+                error.message ||
+                'Could not complete the final image prediction.'
+            );
+
+        } finally {
+
+            stopImageScanMessages();
+
+            isFinalImageSubmitting =
+                false;
+
+        }
+
+    }
+
+
+    function renderFinalImageResult(data) {
+
+        if (
+            !data ||
+            !data.success
+        ) {
+
+            renderError(
+                data?.message ||
+                'The final AI prediction could not be completed.'
+            );
+
+            return;
+
+        }
+
+        if (
+            data.result &&
+            (
+                data.result.ai_identified === true ||
+                typeof data.result.disease_name !== 'undefined'
+            )
+        ) {
+
+            renderResult(
+                {
+                    success: true,
+                    result: data.result,
+                    alternatives:
+                        Array.isArray(
+                            data.alternatives
+                        )
+                            ? data.alternatives
+                            : []
+                }
+            );
+
+            return;
+
+        }
+
+        renderError(
+            data.message ||
+            'The final AI prediction returned an incomplete result.'
+        );
+
+    }
+
+
+
+    /* =========================================================
        ROUTES / CSRF
     ========================================================= */
 
     const analyzeUrl =
         "{{ route('disease.identification.analyze') }}";
+
+    const analyzeImageUrl =
+        "{{ route('disease.identification.analyze-image') }}";
+
+    const predictImageUrl =
+        "{{ route('disease.identification.predict-image') }}";
 
     const csrfToken =
         "{{ csrf_token() }}";
@@ -2150,16 +3923,6 @@
     const grid =
         document.getElementById(
             'didSymptomGrid'
-        );
-
-    const searchInput =
-        document.getElementById(
-            'didSearchInput'
-        );
-
-    const noResults =
-        document.getElementById(
-            'didNoResults'
         );
 
     const resultCount =
@@ -2208,13 +3971,53 @@
         );
 
 
+    const imageInput =
+        document.getElementById(
+            'didImageInput'
+        );
+
+    const imageUploadArea =
+        document.getElementById(
+            'didImageUploadArea'
+        );
+
+    const imagePreviewWrap =
+        document.getElementById(
+            'didImagePreviewWrap'
+        );
+
+    const imagePreview =
+        document.getElementById(
+            'didImagePreview'
+        );
+
+    const imageFileName =
+        document.getElementById(
+            'didImageFileName'
+        );
+
+    const imageRemoveBtn =
+        document.getElementById(
+            'didImageRemoveBtn'
+        );
+
+    const analyzeImageBtn =
+        document.getElementById(
+            'didAnalyzeImageBtn'
+        );
+
+    const analyzeImageLabel =
+        document.getElementById(
+            'didAnalyzeImageLabel'
+        );
+
+
     /* =========================================================
        SAFETY CHECK
     ========================================================= */
 
     if (
         !grid ||
-        !searchInput ||
         !chipsWrap ||
         !countBadge ||
         !statusMsg ||
@@ -2245,6 +4048,286 @@
 
     let scanInterval =
         null;
+
+
+    let selectedImageFile =
+        null;
+
+    let preliminaryImageAnalysis =
+        null;
+
+    let imageQuestionAnswers =
+        {};
+
+    let isImageAnalyzing =
+        false;
+
+    let isFinalImageSubmitting =
+        false;
+
+    let imageScanInterval =
+        null;
+
+
+    function handleImageFile(file) {
+
+        if (!file) {
+            return;
+        }
+
+        const allowedTypes = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+
+            if (imageInput) {
+                imageInput.value = '';
+            }
+
+            selectedImageFile = null;
+
+            alert(
+                'Please select a JPG, JPEG, PNG or WEBP image.'
+            );
+
+            return;
+        }
+
+        const maxSize =
+            10 * 1024 * 1024;
+
+        if (file.size > maxSize) {
+
+            if (imageInput) {
+                imageInput.value = '';
+            }
+
+            selectedImageFile = null;
+
+            alert(
+                'Image size must be 10 MB or less.'
+            );
+
+            return;
+        }
+
+        selectedImageFile = file;
+
+        preliminaryImageAnalysis =
+            null;
+
+        imageQuestionAnswers =
+            {};
+
+        const reader =
+            new FileReader();
+
+        reader.onload =
+            function (event) {
+
+                if (imagePreview) {
+                    imagePreview.src =
+                        event.target.result;
+                }
+
+                if (imageFileName) {
+                    imageFileName.textContent =
+                        file.name;
+                }
+
+                if (imagePreviewWrap) {
+                    imagePreviewWrap.classList.add(
+                        'show'
+                    );
+                }
+
+                if (analyzeImageBtn) {
+                    analyzeImageBtn.disabled = false;
+                }
+
+            };
+
+        reader.readAsDataURL(file);
+    }
+
+
+    if (imageInput) {
+
+        imageInput.addEventListener(
+            'change',
+            function () {
+
+                const file =
+                    this.files && this.files.length > 0
+                        ? this.files[0]
+                        : null;
+
+                handleImageFile(file);
+
+            }
+        );
+
+    }
+
+
+    if (imageUploadArea) {
+
+        imageUploadArea.addEventListener(
+            'click',
+            function (event) {
+
+                if (
+                    event.target.closest(
+                        '.did-image-select-btn'
+                    )
+                ) {
+                    return;
+                }
+
+                if (imageInput) {
+                    imageInput.click();
+                }
+
+            }
+        );
+
+
+        imageUploadArea.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (
+                    event.key === 'Enter' ||
+                    event.key === ' '
+                ) {
+
+                    event.preventDefault();
+
+                    if (imageInput) {
+                        imageInput.click();
+                    }
+
+                }
+
+            }
+        );
+
+
+        ['dragenter', 'dragover'].forEach(
+            function (eventName) {
+
+                imageUploadArea.addEventListener(
+                    eventName,
+                    function (event) {
+
+                        event.preventDefault();
+
+                        imageUploadArea.classList.add(
+                            'dragover'
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        ['dragleave', 'drop'].forEach(
+            function (eventName) {
+
+                imageUploadArea.addEventListener(
+                    eventName,
+                    function (event) {
+
+                        event.preventDefault();
+
+                        imageUploadArea.classList.remove(
+                            'dragover'
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        imageUploadArea.addEventListener(
+            'drop',
+            function (event) {
+
+                const files =
+                    event.dataTransfer &&
+                    event.dataTransfer.files
+                        ? event.dataTransfer.files
+                        : null;
+
+                const file =
+                    files && files.length > 0
+                        ? files[0]
+                        : null;
+
+                handleImageFile(file);
+
+            }
+        );
+
+    }
+
+
+    if (imageRemoveBtn) {
+
+        imageRemoveBtn.addEventListener(
+            'click',
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                selectedImageFile = null;
+
+                preliminaryImageAnalysis =
+                    null;
+
+                imageQuestionAnswers =
+                    {};
+
+                if (analyzeImageBtn) {
+                    analyzeImageBtn.disabled = true;
+                    analyzeImageBtn.classList.remove('loading');
+                }
+
+                if (analyzeImageLabel) {
+                    analyzeImageLabel.textContent =
+                        'Analyze Photo with AI';
+                }
+
+                if (imageInput) {
+                    imageInput.value = '';
+                }
+
+                if (imagePreview) {
+                    imagePreview.src = '';
+                }
+
+                if (imageFileName) {
+                    imageFileName.textContent = '';
+                }
+
+                if (imagePreviewWrap) {
+                    imagePreviewWrap.classList.remove(
+                        'show'
+                    );
+                }
+
+            }
+        );
+
+    }
 
 
     /* =========================================================
@@ -2565,80 +4648,6 @@
 
 
     /* =========================================================
-       SEARCH
-    ========================================================= */
-
-    searchInput.addEventListener(
-        'input',
-        function () {
-
-            const query =
-                this.value
-                    .trim()
-                    .toLowerCase();
-
-
-            let visibleCount =
-                0;
-
-
-            grid.querySelectorAll(
-                '.did-symptom-card'
-            ).forEach(
-                function (card) {
-
-                    const name =
-                        (
-                            card.dataset.name ||
-                            ''
-                        ).toLowerCase();
-
-
-                    const match =
-                        name.includes(
-                            query
-                        );
-
-
-                    card.classList.toggle(
-                        'did-hidden',
-                        !match
-                    );
-
-
-                    if (match) {
-                        visibleCount++;
-                    }
-
-                }
-            );
-
-
-            if (noResults) {
-
-                noResults.style.display =
-                    visibleCount === 0 &&
-                    totalSymptomCount > 0
-                        ? 'block'
-                        : 'none';
-
-            }
-
-
-            if (resultCount) {
-
-                resultCount.textContent =
-                    query === ''
-                        ? `${totalSymptomCount} symptoms`
-                        : `${visibleCount} matching`;
-
-            }
-
-        }
-    );
-
-
-    /* =========================================================
        SCAN MESSAGES
     ========================================================= */
 
@@ -2790,20 +4799,12 @@
 
                     if (!response.ok) {
 
-                        if (
-                            response.status === 422
-                        ) {
+    throw new Error(
+        data?.message ||
+        `Request failed with status ${response.status}.`
+    );
 
-                            return data;
-
-                        }
-
-
-                        throw new Error(
-                            'server_error'
-                        );
-
-                    }
+}
 
 
                     return data;
@@ -2814,17 +4815,15 @@
                 renderResult
             )
             .catch(
-                function (error) {
+    function (error) {
 
-                    renderError(
-                        error.message ===
-                            'server_error'
-                            ? 'The server had trouble processing your request. Please try again.'
-                            : 'Could not reach the server. Check your connection and try again.'
-                    );
+        renderError(
+            error.message ||
+            'Could not process the request. Please try again.'
+        );
 
-                }
-            )
+    }
+)
             .finally(
                 function () {
 
@@ -2872,6 +4871,12 @@
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | No result object
+        |--------------------------------------------------------------------------
+        */
+
         if (!data.result) {
 
             resultsBox.innerHTML = `
@@ -2880,11 +4885,12 @@
                     <i class="fa-solid fa-leaf"></i>
 
                     <h3>
-                        No Strong Symptom Match Found
+                        No Disease Match Found
                     </h3>
 
                     <p>
-                        Try selecting a few more symptoms.
+                        The selected symptoms could not be matched
+                        with a registered disease.
                     </p>
 
                     <div class="did-actions">
@@ -2954,6 +4960,7 @@
         const result =
             data.result;
 
+
         const alternatives =
             Array.isArray(
                 data.alternatives
@@ -2962,16 +4969,127 @@
                 : [];
 
 
-        const percentage =
-            Math.max(
-                0,
-                Math.min(
-                    100,
+        /*
+        |--------------------------------------------------------------------------
+        | Determine whether this is the Gemini fallback result
+        |--------------------------------------------------------------------------
+        */
+
+        const isAiIdentified =
+            result.ai_identified === true;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AI confidence
+        |--------------------------------------------------------------------------
+        */
+
+        let aiConfidenceNumber = 0;
+
+        const confidenceText =
+            String(
+                result.ai_confidence || ''
+            );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Prefer the numeric confidence score returned by Gemini.
+        |
+        | This is an AI-estimated display score, NOT the database
+        | symptom-match percentage and NOT a scientific probability.
+        |--------------------------------------------------------------------------
+        */
+
+        const rawConfidenceScore =
+            Number(
+                result.ai_confidence_score
+            );
+
+        if (
+            Number.isFinite(rawConfidenceScore) &&
+            rawConfidenceScore > 0
+        ) {
+
+            aiConfidenceNumber =
+                rawConfidenceScore;
+
+        } else {
+
+            /*
+            | Compatibility fallback for older responses that only
+            | returned "High", "Moderate", "Low", or a percentage.
+            */
+
+            const confidenceMatch =
+                confidenceText.match(
+                    /(\d+(?:\.\d+)?)\s*%/
+                );
+
+            if (confidenceMatch) {
+
+                aiConfidenceNumber =
                     Number(
-                        result.match_percentage || 0
+                        confidenceMatch[1]
+                    );
+
+            } else {
+
+                const normalizedConfidence =
+                    confidenceText
+                        .trim()
+                        .toLowerCase();
+
+                if (
+                    normalizedConfidence.includes('high')
+                ) {
+
+                    aiConfidenceNumber = 85;
+
+                } else if (
+                    normalizedConfidence.includes('moderate') ||
+                    normalizedConfidence.includes('medium')
+                ) {
+
+                    aiConfidenceNumber = 60;
+
+                } else if (
+                    normalizedConfidence.includes('low')
+                ) {
+
+                    aiConfidenceNumber = 35;
+
+                }
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Main ring percentage
+        |--------------------------------------------------------------------------
+        */
+
+        const percentage =
+            isAiIdentified
+                ? Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        aiConfidenceNumber
                     )
                 )
-            );
+                : Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        Number(
+                            result.match_percentage || 0
+                        )
+                    )
+                );
 
 
         const circumference =
@@ -2987,8 +5105,40 @@
             );
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | AI reason + Causes + Prevention + Fertilizer
+        |--------------------------------------------------------------------------
+        */
+
         let detailBlocks =
             '';
+
+
+        if (
+            isAiIdentified &&
+            result.ai_reason
+        ) {
+
+            detailBlocks += `
+                <div class="did-ai-reason">
+
+                    <div class="did-ai-reason-title">
+
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                        Why Gemini Suggested This Disease
+
+                    </div>
+
+                    <p>
+                        ${escapeHtml(result.ai_reason)}
+                    </p>
+
+                </div>
+            `;
+
+        }
 
 
         if (result.causes) {
@@ -3051,11 +5201,60 @@
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | AI warning
+        |--------------------------------------------------------------------------
+        */
+
+        let aiWarningHtml =
+            '';
+
+
+        if (isAiIdentified) {
+
+            aiWarningHtml = `
+                <div class="did-ai-warning">
+
+                    <div class="did-ai-warning-icon">
+
+                        <i class="fa-solid fa-robot"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            AI-Suggested Disease
+                        </strong>
+
+                        <p>
+                            Gemini AI independently analyzed the selected
+                            symptoms without using the database disease
+                            match as its final decision. This is an AI-assisted
+                            suggestion, not a confirmed scientific diagnosis.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Other symptoms of a registered disease
+        |--------------------------------------------------------------------------
+        */
+
         let unmatchedHtml =
             '';
 
 
         if (
+            !isAiIdentified &&
             Array.isArray(
                 result.unmatched_symptoms
             ) &&
@@ -3096,11 +5295,20 @@
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Alternative database matches
+        |--------------------------------------------------------------------------
+        */
+
         let alternativesHtml =
             '';
 
 
-        if (alternatives.length > 0) {
+        if (
+            !isAiIdentified &&
+            alternatives.length > 0
+        ) {
 
             alternativesHtml = `
                 <div class="did-detail-block did-alt-list">
@@ -3166,6 +5374,12 @@
         }
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Symptoms shown in the result
+        |--------------------------------------------------------------------------
+        */
+
         const matchedSymptoms =
             Array.isArray(
                 result.matched_symptoms
@@ -3174,15 +5388,205 @@
                 : [];
 
 
+        const symptomsToShow =
+            isAiIdentified
+                ? (
+                    Array.isArray(
+                        result.unmatched_symptoms
+                    ) &&
+                    result.unmatched_symptoms.length > 0
+                        ? result.unmatched_symptoms
+                        : matchedSymptoms
+                )
+                : matchedSymptoms;
+
+
+        const symptomsTitle =
+            isAiIdentified
+                ? 'Symptoms Considered by Gemini'
+                : 'Matched Symptoms';
+
+
+        const symptomsIcon =
+            isAiIdentified
+                ? 'fa-list-check'
+                : 'fa-check-double';
+
+
+        const symptomsHtml =
+            symptomsToShow.length > 0
+                ? symptomsToShow
+                    .map(
+                        function (symptom) {
+
+                            return `
+                                <span class="${
+                                    isAiIdentified
+                                        ? 'did-unmatched-pill'
+                                        : 'did-matched-pill'
+                                }">
+
+                                    ${
+                                        isAiIdentified
+                                            ? ''
+                                            : '✓ '
+                                    }
+
+                                    ${escapeHtml(symptom)}
+
+                                </span>
+                            `;
+
+                        }
+                    )
+                    .join('')
+                : `
+                    <span class="did-unmatched-pill">
+                        No symptoms returned.
+                    </span>
+                `;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Result information
+        |--------------------------------------------------------------------------
+        */
+
+        let resultInfoHtml =
+            '';
+
+
+        if (isAiIdentified) {
+
+            resultInfoHtml = `
+
+                <div class="match-sub">
+                    Identified with Gemini AI
+                </div>
+
+                <h3>
+                    ${escapeHtml(
+                        result.disease_name ||
+                        'Unknown Disease'
+                    )}
+                </h3>
+
+
+                <div class="did-ai-source">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                    Identification Source:
+                    Gemini AI
+
+                </div>
+
+
+                ${
+                    result.ai_confidence
+                        ? `
+                            <div class="did-ai-confidence">
+
+                                AI Confidence:
+
+                                <strong>
+                                    ${escapeHtml(
+                                        result.ai_confidence
+                                    )}
+                                </strong>
+
+                            </div>
+                        `
+                        : ''
+                }
+
+
+                <div class="match-sub mt-2">
+
+                    The selected symptoms did not match
+                    a disease registered in CARDO-FER.
+
+                </div>
+
+            `;
+
+        } else {
+
+            resultInfoHtml = `
+
+                <div class="match-sub">
+                    Most Likely Match
+                </div>
+
+                <h3>
+                    ${escapeHtml(
+                        result.disease_name ||
+                        'Unknown Disease'
+                    )}
+                </h3>
+
+                <div class="match-sub">
+
+                    ${Number(
+                        result.matched_count || 0
+                    )}
+
+                    of
+
+                    ${Number(
+                        result.selected_count || 0
+                    )}
+
+                    selected symptoms matched
+
+                    (
+
+                    ${Number(
+                        result.total_disease_symptoms || 0
+                    )}
+
+                    known symptoms for this disease
+
+                    )
+
+                </div>
+
+            `;
+
+        }
+
+
+        const disclaimer =
+            isAiIdentified
+                ? 'This is an AI-assisted symptom-based suggestion, not a confirmed scientific diagnosis.'
+                : 'This is a symptom-pattern match, not a medical or scientific diagnosis.';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Render result
+        |--------------------------------------------------------------------------
+        */
+
         resultsBox.innerHTML = `
 
             <div class="did-result-header">
 
                 <span class="tag">
-                    Analysis Complete
+
+                    ${
+                        isAiIdentified
+                            ? 'AI-Assisted Identification'
+                            : 'Analysis Complete'
+                    }
+
                 </span>
 
             </div>
+
+
+            ${aiWarningHtml}
 
 
             <div class="did-best-match">
@@ -3223,7 +5627,13 @@
 
 
                     <div class="did-ring-label">
-                        Symptom Match
+
+                        ${
+                            isAiIdentified
+                                ? 'AI Confidence'
+                                : 'Symptom Match'
+                        }
+
                     </div>
 
                 </div>
@@ -3231,34 +5641,12 @@
 
                 <div class="did-best-info">
 
-                    <div class="match-sub">
-                        Most Likely Match
-                    </div>
-
-                    <h3>
-                        ${escapeHtml(
-                            result.disease_name || 'Unknown Disease'
-                        )}
-                    </h3>
-
-                    <div class="match-sub">
-
-                        ${Number(result.matched_count || 0)}
-                        of
-                        ${Number(result.selected_count || 0)}
-                        selected symptoms matched
-
-                        (
-                        ${Number(result.total_disease_symptoms || 0)}
-                        known symptoms for this disease
-                        )
-
-                    </div>
-
+                    ${resultInfoHtml}
 
                     <div class="did-disclaimer">
-                        This is a symptom-pattern match,
-                        not a medical or scientific diagnosis.
+
+                        ${escapeHtml(disclaimer)}
+
                     </div>
 
                 </div>
@@ -3269,33 +5657,19 @@
             <div class="did-detail-block">
 
                 <h4>
-                    <i class="fa-solid fa-check-double"></i>
-                    Matched Symptoms
+
+                    <i
+                        class="fa-solid ${symptomsIcon}"
+                    ></i>
+
+                    ${symptomsTitle}
+
                 </h4>
+
 
                 <div class="did-matched-list">
 
-                    ${
-                        matchedSymptoms.length > 0
-                            ? matchedSymptoms
-                                .map(
-                                    function (symptom) {
-
-                                        return `
-                                            <span class="did-matched-pill">
-                                                ✓ ${escapeHtml(symptom)}
-                                            </span>
-                                        `;
-
-                                    }
-                                )
-                                .join('')
-                            : `
-                                <span class="did-unmatched-pill">
-                                    No exact symptom names returned.
-                                </span>
-                              `
-                    }
+                    ${symptomsHtml}
 
                 </div>
 
@@ -3333,6 +5707,12 @@
         setStep(4);
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Animate result ring
+        |--------------------------------------------------------------------------
+        */
+
         requestAnimationFrame(
             function () {
 
@@ -3340,6 +5720,7 @@
                     document.getElementById(
                         'didRingFg'
                     );
+
 
                 const ringPct =
                     document.getElementById(
@@ -3387,6 +5768,12 @@
             }
         );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reset button
+        |--------------------------------------------------------------------------
+        */
 
         const resetButton =
             document.getElementById(
@@ -3581,6 +5968,44 @@
         selected.clear();
 
 
+        selectedImageFile =
+            null;
+
+        preliminaryImageAnalysis =
+            null;
+
+        imageQuestionAnswers =
+            {};
+
+        if (analyzeImageBtn) {
+            analyzeImageBtn.disabled = true;
+            analyzeImageBtn.classList.remove('loading');
+        }
+
+        if (analyzeImageLabel) {
+            analyzeImageLabel.textContent =
+                'Analyze Photo with AI';
+        }
+
+        if (imageInput) {
+            imageInput.value = '';
+        }
+
+        if (imagePreview) {
+            imagePreview.src = '';
+        }
+
+        if (imageFileName) {
+            imageFileName.textContent = '';
+        }
+
+        if (imagePreviewWrap) {
+            imagePreviewWrap.classList.remove(
+                'show'
+            );
+        }
+
+
         grid.querySelectorAll(
             '.did-symptom-card'
         ).forEach(
@@ -3607,39 +6032,6 @@
             '';
 
 
-        searchInput.value =
-            '';
-
-
-        grid.querySelectorAll(
-            '.did-symptom-card'
-        ).forEach(
-            function (card) {
-
-                card.classList.remove(
-                    'did-hidden'
-                );
-
-            }
-        );
-
-
-        if (noResults) {
-
-            noResults.style.display =
-                'none';
-
-        }
-
-
-        if (resultCount) {
-
-            resultCount.textContent =
-                `${totalSymptomCount} symptoms`;
-
-        }
-
-
         const selectionCard =
             document.getElementById(
                 'didSelectionCard'
@@ -3654,6 +6046,21 @@
             });
 
         }
+
+    }
+
+
+    /* =========================================================
+       IMAGE ANALYZE BUTTON LISTENER
+       Register this only after all image variables are initialized.
+    ========================================================= */
+
+    if (analyzeImageBtn) {
+
+        analyzeImageBtn.addEventListener(
+            'click',
+            analyzeSelectedImage
+        );
 
     }
 

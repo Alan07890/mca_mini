@@ -230,6 +230,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
         [AdminController::class, 'fertilizer_delete']
     )->name('fertilizer_delete');
 
+    Route::post(
+        '/fertilizer_mapping_store',
+        [AdminController::class, 'fertilizer_mapping_store']
+    )->name('fertilizer_mapping_store');
+
+    Route::delete(
+        '/fertilizer_mapping_delete/{id}',
+        [AdminController::class, 'fertilizer_mapping_delete']
+    )->name('fertilizer_mapping_delete');
+
 
     /*
     |--------------------------------------------------------------------------
@@ -290,12 +300,56 @@ Route::get(
 |--------------------------------------------------------------------------
 | Farmer Disease Identification Analysis
 |--------------------------------------------------------------------------
+|
+| Existing symptom-only analysis route.
+|--------------------------------------------------------------------------
 */
 
 Route::post(
     '/farmer/disease-identification/analyze',
     [FarmerController::class, 'analyzeDisease']
 )->middleware('auth')->name('disease.identification.analyze');
+
+
+/*
+|--------------------------------------------------------------------------
+| Farmer Disease Image Preliminary Analysis
+|--------------------------------------------------------------------------
+|
+| Stage 1:
+| The farmer uploads a plant image.
+| Gemini Vision analyzes the image and returns:
+| - visible observations
+| - visible symptoms
+| - possible disease suggestions
+| - confirmation questions
+| - image quality
+|
+| This stage does NOT finalize the disease prediction.
+|--------------------------------------------------------------------------
+*/
+
+Route::post(
+    '/farmer/disease-identification/analyze-image',
+    [FarmerController::class, 'analyzePlantImage']
+)->middleware('auth')->name('disease.identification.analyze-image');
+
+
+/*
+|--------------------------------------------------------------------------
+| Farmer Disease Image + Confirmed Symptoms Final Analysis
+|--------------------------------------------------------------------------
+|
+| Stage 2:
+| The image and farmer-confirmed symptoms are sent to Gemini.
+| Gemini performs the final AI-assisted disease prediction.
+|--------------------------------------------------------------------------
+*/
+
+Route::post(
+    '/farmer/disease-identification/predict-image',
+    [FarmerController::class, 'predictDiseaseFromImageAndSymptoms']
+)->middleware('auth')->name('disease.identification.predict-image');
 
 
 /*

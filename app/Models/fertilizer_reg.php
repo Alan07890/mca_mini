@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class fertilizer_reg extends Model
 {
@@ -23,4 +24,12 @@ class fertilizer_reg extends Model
     'reference_quantity',
     'reference_unit',
 ];
+public function diseases(): HasMany
+{
+    return $this->hasMany(
+        DiseaseFertilizer::class,
+        'fertilizer_id',
+        'id'
+    );
+}
 }

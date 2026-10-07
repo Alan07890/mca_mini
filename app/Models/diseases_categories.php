@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class diseases_categories  extends Model
 {
@@ -13,4 +14,12 @@ class diseases_categories  extends Model
     public $incrementing = true;
 
     protected $keyType = 'int';
+    public function fertilizers(): HasMany
+{
+    return $this->hasMany(
+        DiseaseFertilizer::class,
+        'category_id',
+        'category_id'
+    );
+}
 }

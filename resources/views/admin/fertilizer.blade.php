@@ -546,6 +546,19 @@
     @endif
 
 
+    @if (session('error'))
+
+        <div class="fert-alert" style="border-color: rgba(226,131,107,0.35); background: rgba(226,131,107,0.10); color: var(--fert-danger);">
+
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+
+            {{ session('error') }}
+
+        </div>
+
+    @endif
+
+
     {{-- =====================================================
          ADD FERTILIZER
     ====================================================== --}}
@@ -901,6 +914,329 @@
 
     </div>
 
+
+
+    {{-- =========================================================
+         DISEASE → FERTILIZER MAPPING
+    ========================================================== --}}
+
+    <div class="fert-card">
+
+        <div class="fert-card-title">
+
+            <i class="fa-solid fa-link"></i>
+
+            Disease → Fertilizer Mapping
+
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ route('fertilizer_mapping_store') }}"
+        >
+
+            @csrf
+
+            <div class="row g-3">
+
+                {{-- Disease --}}
+                <div class="col-md-6">
+
+                    <label
+                        for="mapping_category_id"
+                        class="fert-label"
+                    >
+                        Disease
+                    </label>
+
+                    <select
+                        id="mapping_category_id"
+                        name="category_id"
+                        class="form-select @error('category_id') is-invalid @enderror"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                            selected
+                        >
+                            Select disease
+                        </option>
+
+                        @foreach($categories as $category)
+
+                            <option
+                                value="{{ $category->category_id }}"
+                                {{ old('category_id') == $category->category_id ? 'selected' : '' }}
+                            >
+                                {{ $category->diseases_name }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                    @error('category_id')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+
+                {{-- Fertilizer --}}
+                <div class="col-md-6">
+
+                    <label
+                        for="mapping_fertilizer_id"
+                        class="fert-label"
+                    >
+                        Fertilizer
+                    </label>
+
+                    <select
+                        id="mapping_fertilizer_id"
+                        name="fertilizer_id"
+                        class="form-select @error('fertilizer_id') is-invalid @enderror"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            disabled
+                            selected
+                        >
+                            Select fertilizer
+                        </option>
+
+                        @foreach($fertilizers as $fertilizer)
+
+                            <option
+                                value="{{ $fertilizer->id }}"
+                                {{ old('fertilizer_id') == $fertilizer->id ? 'selected' : '' }}
+                            >
+                                {{ $fertilizer->fertilizer_name }}
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                    @error('fertilizer_id')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
+                </div>
+
+            </div>
+
+
+            <div class="mt-4">
+
+                <button
+                    type="submit"
+                    class="fert-btn-primary"
+                >
+
+                    <i class="fa-solid fa-link me-1"></i>
+
+                    Map Fertilizer
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {{-- =========================================================
+         DISEASE FERTILIZER MAPPING LIST
+    ========================================================== --}}
+
+    <div class="fert-card">
+
+        <div class="fert-card-title">
+
+            <i class="fa-solid fa-list-check"></i>
+
+            Disease Fertilizer Mappings
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="fert-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Disease
+                        </th>
+
+                        <th>
+                            Fertilizer
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Dosage
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @forelse($diseaseFertilizers as $mapping)
+
+                        <tr>
+
+                            <td data-label="Disease">
+
+                                {{ $mapping->disease?->diseases_name ?? 'Unknown Disease' }}
+
+                            </td>
+
+
+                            <td data-label="Fertilizer">
+
+                                {{ $mapping->fertilizer?->fertilizer_name ?? 'Unknown Fertilizer' }}
+
+                            </td>
+
+
+                            <td data-label="Category">
+
+                                @if($mapping->fertilizer)
+
+                                    <span
+                                        class="fert-badge {{
+                                            $mapping->fertilizer->category === 'Organic'
+                                                ? 'fert-badge-organic'
+                                                : 'fert-badge-inorganic'
+                                        }}"
+                                    >
+
+                                        {{ $mapping->fertilizer->category }}
+
+                                    </span>
+
+                                @else
+
+                                    —
+
+                                @endif
+
+                            </td>
+
+
+                            <td data-label="Dosage">
+
+                                @if($mapping->fertilizer)
+
+                                    @if($mapping->fertilizer->category === 'Organic')
+
+                                        {{ $mapping->fertilizer->dosage_amount }}
+                                        {{ $mapping->fertilizer->dosage_unit }}
+                                        / plant
+
+                                    @else
+
+                                        {{ $mapping->fertilizer->dosage_amount }}
+                                        {{ $mapping->fertilizer->dosage_unit }}
+
+                                        /
+
+                                        {{ $mapping->fertilizer->reference_quantity }}
+                                        {{ $mapping->fertilizer->reference_unit }}
+
+                                    @endif
+
+                                @else
+
+                                    —
+
+                                @endif
+
+                            </td>
+
+
+                            <td data-label="Action">
+
+                                <form
+                                    method="POST"
+                                    action="{{ route(
+                                        'fertilizer_mapping_delete',
+                                        $mapping->id
+                                    ) }}"
+                                    onsubmit="return confirm('Remove this fertilizer mapping?');"
+                                >
+
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="fert-action-btn delete"
+                                    >
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                        Remove
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="5">
+
+                                <div class="fert-empty">
+
+                                    No disease-fertilizer mappings added yet.
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
     {{-- =====================================================
          FERTILIZER LIST

@@ -381,55 +381,6 @@
                 0 0 0 3px rgba(217,154,78,.16);
         }
 
-        /* Role select — reuses the same visual language as .field input */
-        .field select {
-            width: 100%;
-
-            background: rgba(6,16,10,.45);
-
-            border: 1px solid var(--line-strong);
-
-            border-radius: 12px;
-
-            padding: 13px 15px;
-
-            font-size: 14.5px;
-
-            color: var(--cream);
-
-            font-family: var(--sans);
-
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-
-            background-image:
-                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238fac96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 14px;
-
-            cursor: pointer;
-
-            transition:
-                border-color .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .field select:focus {
-            outline: none;
-
-            border-color: var(--gold);
-
-            box-shadow:
-                0 0 0 3px rgba(217,154,78,.16);
-        }
-
-        .field select option {
-            background: var(--bg-1);
-            color: var(--cream);
-        }
-
         .error-box {
             margin-top: 3px;
 
@@ -741,41 +692,6 @@
                     >
 
                     @error('email')
-                        <div class="error-box">
-                            {{ $message }}
-                        </div>
-                    @enderror
-
-                </div>
-
-
-                <!-- ROLE -->
-
-                <div class="field">
-
-                    <label for="role">
-                        Register As
-                    </label>
-
-                    <select
-                        id="role"
-                        name="role"
-                        required
-                    >
-                        <option value="" disabled {{ old('role') ? '' : 'selected' }}>
-                            Select a role
-                        </option>
-
-                        <option value="farmer" {{ old('role') === 'farmer' ? 'selected' : '' }}>
-                            Farmer
-                        </option>
-
-                        <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>
-                            Admin
-                        </option>
-                    </select>
-
-                    @error('role')
                         <div class="error-box">
                             {{ $message }}
                         </div>
