@@ -12,6 +12,9 @@ class FarmerField extends Model
         'area',
         'area_unit',
         'plant_count',
+        'place',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [

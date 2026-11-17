@@ -3213,7 +3213,7 @@
             ) {
                 throw new Error(
                     data?.message ||
-                    'Gemini could not analyze this image.'
+                    'Cardo AI could not analyze this image.'
                 );
             }
 
@@ -3487,7 +3487,7 @@
 
                                 <h4>
                                     <i class="fa-solid fa-eye"></i>
-                                    What Gemini Sees
+                                    What Cardo AI Sees
                                 </h4>
 
                                 <p>
@@ -3736,7 +3736,7 @@
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
 
                 <h3>
-                    Gemini is checking the complete case
+                    Cardo AI is checking the complete case
                 </h3>
 
                 <p>
@@ -4971,7 +4971,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | Determine whether this is the Gemini fallback result
+        | Determine whether this is the Cardo AI fallback result
         |--------------------------------------------------------------------------
         */
 
@@ -4994,7 +4994,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | Prefer the numeric confidence score returned by Gemini.
+        | Prefer the numeric confidence score returned by Cardo AI.
         |
         | This is an AI-estimated display score, NOT the database
         | symptom-match percentage and NOT a scientific probability.
@@ -5127,7 +5127,7 @@
 
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
 
-                        Why Gemini Suggested This Disease
+                        Why Cardo AI Suggested This Disease
 
                     </div>
 
@@ -5229,7 +5229,7 @@
                         </strong>
 
                         <p>
-                            Gemini AI independently analyzed the selected
+                            Cardo AI independently analyzed the selected
                             symptoms without using the database disease
                             match as its final decision. This is an AI-assisted
                             suggestion, not a confirmed scientific diagnosis.
@@ -5403,7 +5403,7 @@
 
         const symptomsTitle =
             isAiIdentified
-                ? 'Symptoms Considered by Gemini'
+                ? 'Symptoms Considered by Cardo AI'
                 : 'Matched Symptoms';
 
 
@@ -5462,7 +5462,7 @@
             resultInfoHtml = `
 
                 <div class="match-sub">
-                    Identified with Gemini AI
+                    Identified with Cardo AI
                 </div>
 
                 <h3>
@@ -5478,7 +5478,7 @@
                     <i class="fa-solid fa-robot"></i>
 
                     Identification Source:
-                    Gemini AI
+                    Cardo AI
 
                 </div>
 
@@ -5501,13 +5501,6 @@
                         : ''
                 }
 
-
-                <div class="match-sub mt-2">
-
-                    The selected symptoms did not match
-                    a disease registered in CARDO-FER.
-
-                </div>
 
             `;
 

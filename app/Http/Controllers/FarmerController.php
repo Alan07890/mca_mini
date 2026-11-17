@@ -9,6 +9,10 @@ use App\Models\SymptomReg;
 use App\Models\DiseaseAnalysisResult;
 use App\Models\DiseaseAnalysisSymptom;
 use App\Models\diseases_categories;
+use App\Models\FertilizerApplication;
+use App\Models\fertilizer_reg;
+use App\Mail\FertilizerScheduleConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,28 +40,29 @@ class FarmerController extends Controller
     }
 
 
-    public function saveField(Request $request)
-    {
-        $validated = $request->validate([
-            'area' => 'required|numeric|min:0.01',
-            'area_unit' => 'required|in:acre,cent',
-            'plant_count' => 'required|integer|min:1',
-        ]);
+   public function saveField(Request $request)
+{
+    $validated = $request->validate([
+        'area' => 'required|numeric|min:0.01',
+        'area_unit' => 'required|in:acre,cent',
+        'plant_count' => 'required|integer|min:1',
+        'place' => 'required|string|max:255',
+        'latitude' => 'required|numeric|between:-90,90',
+        'longitude' => 'required|numeric|between:-180,180',
+    ]);
 
-        FarmerField::updateOrCreate(
-            [
-                'user_id' => Auth::id()
-            ],
-            $validated
+    FarmerField::updateOrCreate(
+        ['user_id' => Auth::id()],
+        $validated
+    );
+
+    return redirect()
+        ->route('farmer.field')
+        ->with(
+            'ff_success',
+            'Your field details have been saved successfully.'
         );
-
-        return redirect()
-            ->route('farmer.field')
-            ->with(
-                'ff_success',
-                'Your field details have been saved successfully.'
-            );
-    }
+}
 
 
     public function diseaseIdentification()
@@ -189,6 +194,9 @@ class FarmerController extends Controller
 
                 'plant_count' =>
                     $field->plant_count,
+
+                'place' =>
+                    $field->place,
 
             ]
             : null;
@@ -426,6 +434,9 @@ class FarmerController extends Controller
                 'plant_count' =>
                     $field->plant_count,
 
+                'place' =>
+                    $field->place,
+
             ]
             : null;
 
@@ -552,6 +563,11 @@ class FarmerController extends Controller
                 $finalDiseaseName
             );
 
+            $adminFertilizers = $this->getAdminFertilizersForCategory($categoryId);
+            $fertilizerRecommendation = $this->formatAdminFertilizerRecommendation(
+                $adminFertilizers
+            );
+
             $confirmationAnswers = $this->buildConfirmationAnswers(
                 $confirmedSymptoms
             );
@@ -633,7 +649,7 @@ class FarmerController extends Controller
                 'prevention' =>
                     $aiResult['prevention'] ?? null,
                 'fertilizer' =>
-                    $aiResult['fertilizer'] ?? null,
+                    $fertilizerRecommendation,
 
                 'database_match_found' => false,
                 'database_disease_name' => null,
@@ -709,7 +725,7 @@ class FarmerController extends Controller
                     true,
 
                 'category_id' =>
-                    null,
+                    $categoryId,
 
                 'disease_name' =>
                     $finalDiseaseName,
@@ -755,8 +771,15 @@ class FarmerController extends Controller
                     ?? '',
 
                 'fertilizer' =>
-                    $aiResult['fertilizer']
-                    ?? '',
+                    $fertilizerRecommendation ?? '',
+
+                'fertilizer_source' =>
+                    $fertilizerRecommendation
+                        ? 'Administrator-defined mapping'
+                        : null,
+
+                'fertilizer_mapping_found' =>
+                    $adminFertilizers->isNotEmpty(),
 
                 'sources' =>
                     $aiResult['sources']
@@ -1158,6 +1181,9 @@ class FarmerController extends Controller
                 'plant_count' =>
                     $field->plant_count,
 
+                'place' =>
+                    $field->place,
+
             ]
             : null;
 
@@ -1295,6 +1321,11 @@ class FarmerController extends Controller
                 $aiResult['disease_name'] ?? null
             );
 
+            $adminFertilizers = $this->getAdminFertilizersForCategory($categoryId);
+            $fertilizerRecommendation = $this->formatAdminFertilizerRecommendation(
+                $adminFertilizers
+            );
+
             $symptomHistoryRows = [];
 
             foreach ($selectedSymptomIds as $symptomId) {
@@ -1339,7 +1370,7 @@ class FarmerController extends Controller
                 'prevention' =>
                     $aiResult['prevention'] ?? null,
                 'fertilizer' =>
-                    $aiResult['fertilizer'] ?? null,
+                    $fertilizerRecommendation,
 
                 'database_match_found' =>
                     $databaseComparison['match_found'],
@@ -1415,7 +1446,7 @@ class FarmerController extends Controller
                 */
 
                 'category_id' =>
-                    null,
+                    $categoryId,
 
                 'disease_name' =>
                     $aiResult['disease_name']
@@ -1480,8 +1511,15 @@ class FarmerController extends Controller
                     ?? '',
 
                 'fertilizer' =>
-                    $aiResult['fertilizer']
-                    ?? '',
+                    $fertilizerRecommendation ?? '',
+
+                'fertilizer_source' =>
+                    $fertilizerRecommendation
+                        ? 'Administrator-defined mapping'
+                        : null,
+
+                'fertilizer_mapping_found' =>
+                    $adminFertilizers->isNotEmpty(),
 
                 /*
                 |--------------------------------------------------------------------------
@@ -1542,9 +1580,9 @@ class FarmerController extends Controller
             return null;
         }
 
-        return diseases_categories::where(
-            'diseases_name',
-            $diseaseName
+        return diseases_categories::whereRaw(
+            'LOWER(diseases_name) = ?',
+            [mb_strtolower($diseaseName)]
         )->value('category_id');
     }
 
@@ -1696,6 +1734,252 @@ class FarmerController extends Controller
 
             return $analysis;
         });
+    }
+    /**
+     * Farmer Fertilizer Management / Documentation.
+     *
+     * This page is driven only by administrator-defined
+     * disease -> fertilizer mappings. No AI recommendation is generated here.
+     */
+    public function fertilizer()
+    {
+        $diseaseFertilizers = DB::table('diseases_categories as dc')
+            ->leftJoin(
+                'disease_fertilizers as df',
+                'dc.category_id',
+                '=',
+                'df.category_id'
+            )
+            ->leftJoin(
+                'fertilizer_regs as fr',
+                'df.fertilizer_id',
+                '=',
+                'fr.id'
+            )
+            ->select([
+                'dc.category_id',
+                'dc.diseases_name',
+                'fr.id as fertilizer_id',
+                'fr.fertilizer_name',
+                'fr.category as fertilizer_category',
+                'fr.description',
+                'fr.dosage_amount',
+                'fr.dosage_unit',
+                'fr.reference_quantity',
+                'fr.reference_unit',
+            ])
+            ->orderBy('dc.diseases_name', 'asc')
+            ->orderBy('fr.fertilizer_name', 'asc')
+            ->get()
+            ->groupBy('category_id');
+
+        // Field details let the guide page estimate quantities for the farmer's field.
+        $field = FarmerField::where(
+            'user_id',
+            Auth::id()
+        )->first();
+
+        return view(
+            'farmer.fertilizer',
+            compact('diseaseFertilizers', 'field')
+        );
+    }
+
+    /**
+     * Farmer Fertilizer Reminder / application history.
+     */
+    public function fertilizerReminder()
+    {
+        $fertilizers = fertilizer_reg::orderBy(
+            'fertilizer_name',
+            'asc'
+        )->get();
+
+        $applications = FertilizerApplication::with('fertilizer')
+            ->where('user_id', Auth::id())
+            ->orderByDesc('applied_date')
+            ->get();
+
+        // Field information is used by the reminder page to calculate
+        // suggested fertilizer quantities from the farmer's saved details.
+        $field = FarmerField::where(
+            'user_id',
+            Auth::id()
+        )->first();
+
+        return view(
+            'farmer.fertilizer-reminder',
+            compact('fertilizers', 'applications', 'field')
+        );
+    }
+
+    /**
+     * Store one farmer fertilizer application for the reminder/history page.
+     */
+    public function fertilizerStore(Request $request)
+    {
+        $validated = $request->validate([
+            'fertilizer_id' => [
+                'required',
+                'exists:fertilizer_regs,id',
+            ],
+            'quantity' => [
+                'required',
+                'numeric',
+                'min:0.01',
+            ],
+            'quantity_unit' => [
+                'required',
+                'in:g,kg,ml,L',
+            ],
+            'applied_date' => [
+                'required',
+                'date',
+            ],
+            'next_application_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:applied_date',
+            ],
+            'notes' => [
+                'nullable',
+                'string',
+            ],
+        ]);
+
+        // Save the fertilizer application first so email errors never lose the record.
+        $application = FertilizerApplication::create([
+            'user_id' => Auth::id(),
+            'fertilizer_id' => $validated['fertilizer_id'],
+            'quantity' => $validated['quantity'],
+            'quantity_unit' => $validated['quantity_unit'],
+            'applied_date' => $validated['applied_date'],
+            'next_application_date' => $validated['next_application_date'] ?? null,
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        // Preserve existing behavior: clear older upcoming reminders for the same fertilizer.
+        FertilizerApplication::where('user_id', Auth::id())
+            ->where('fertilizer_id', $application->fertilizer_id)
+            ->where('id', '!=', $application->id)
+            ->whereNotNull('next_application_date')
+            ->whereDate('applied_date', '<=', $validated['applied_date'])
+            ->update(['next_application_date' => null]);
+
+        // Send confirmation to the logged-in farmer using the existing mail configuration.
+        $user = Auth::user();
+        $emailSent = false;
+
+        if ($user && $user->email) {
+            try {
+                $application->load('fertilizer');
+
+                Mail::to($user->email)->send(
+                    new FertilizerScheduleConfirmationMail(
+                        $application,
+                        $user->name ?? 'Farmer'
+                    )
+                );
+
+                $emailSent = true;
+            } catch (\Throwable $e) {
+                // Keep the application saved even if email delivery fails.
+                report($e);
+            }
+        }
+
+        $message = 'Fertilizer application recorded successfully.';
+
+        if ($emailSent) {
+            $message .= ' A confirmation email has been sent to your registered email address.';
+        } else {
+            $message .= ' However, the confirmation email could not be sent. Please check the mail configuration and logs.';
+        }
+
+        return redirect()
+            ->route('farmer.fertilizer.reminder')
+            ->with('success', $message);
+    }
+
+    /**
+     * Fetch only administrator-approved fertilizers mapped to one disease.
+     */
+    private function getAdminFertilizersForCategory(?int $categoryId)
+    {
+        if (!$categoryId) {
+            return collect();
+        }
+
+        return DB::table('disease_fertilizers as df')
+            ->join(
+                'fertilizer_regs as fr',
+                'df.fertilizer_id',
+                '=',
+                'fr.id'
+            )
+            ->where('df.category_id', $categoryId)
+            ->select([
+                'fr.id',
+                'fr.fertilizer_name',
+                'fr.category',
+                'fr.description',
+                'fr.dosage_amount',
+                'fr.dosage_unit',
+                'fr.reference_quantity',
+                'fr.reference_unit',
+            ])
+            ->orderBy('fr.fertilizer_name', 'asc')
+            ->get();
+    }
+
+    /**
+     * Convert administrator-defined fertilizer mappings into the string
+     * expected by the existing disease-identification Blade.
+     */
+    private function formatAdminFertilizerRecommendation($fertilizers): ?string
+    {
+        if (!$fertilizers || $fertilizers->isEmpty()) {
+            return null;
+        }
+
+        return $fertilizers->map(function ($fertilizer) {
+            $line = '• ' . $fertilizer->fertilizer_name;
+
+            if (
+                $fertilizer->dosage_amount !== null &&
+                $fertilizer->dosage_unit
+            ) {
+                $line .= ' — Dosage: ' .
+                    $fertilizer->dosage_amount . ' ' .
+                    $fertilizer->dosage_unit;
+            }
+
+            if (
+                $fertilizer->reference_quantity !== null &&
+                $fertilizer->reference_unit
+            ) {
+                $line .= ' (Reference: ' .
+                    $fertilizer->reference_quantity . ' ' .
+                    $fertilizer->reference_unit . ')';
+            }
+
+            return $line;
+        })->implode("\n");
+    }
+
+
+    /**
+     * Display only the logged-in farmer's saved disease-analysis history.
+     */
+    public function analysisHistory()
+    {
+        $analyses = DiseaseAnalysisResult::with('symptoms')
+            ->where('user_id', Auth::id())
+            ->orderByDesc('analyzed_at')
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        return view('farmer.analysis-history', compact('analyses'));
     }
 
 }

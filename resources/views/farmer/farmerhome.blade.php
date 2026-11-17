@@ -9,49 +9,50 @@
 <div class="mobile-menu">
 
     <a href="{{ route('farmerhome') }}">
+        <i class="fa-solid fa-house"></i>
         Home
     </a>
 
-    <a href="{{ route('dashboard') }}">
-        Dashboard
-    </a>
-
-    <a href="{{ route('disease.identification') }}">
-        Disease Identification
-    </a>
-
     <a href="{{ route('farmer.field') }}">
+        <i class="fa-solid fa-seedling"></i>
         Add Field Details
     </a>
 
-  <a href="{{ route('disease.identification') }}">
-    Disease Identification
-</a>
+    <a href="{{ route('disease.identification') }}">
+        <i class="fa-solid fa-stethoscope"></i>
+        Disease Identification
+    </a>
+
+    <a href="{{ route('farmer.fertilizer') }}">
+        <i class="fa-solid fa-leaf"></i>
+        Fertilizer Management
+    </a>
+
+    <a href="{{ route('farmer.fertilizer') }}">
+        <i class="fa-solid fa-bell"></i>
+        Fertilizer Reminder
+    </a>
+
+    <a href="#disease-history">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Disease History
+    </a>
+
+    <a href="#farm-reports">
+        <i class="fa-solid fa-chart-column"></i>
+        Farm Reports
+    </a>
 
     <a href="weather.html">
-        Weather
-    </a>
-
-    <a href="consultation.html">
-        Consultation
-    </a>
-
-    <a href="grants.html">
-        Grants
-    </a>
-
-    <a href="forum.html">
-        Forum
-    </a>
-
-    <a href="contact.html">
-        Contact
+        <i class="fa-solid fa-cloud-sun"></i>
+        Weather Prediction
     </a>
 
     <a
         href="{{ route('disease.identification') }}"
         class="btn btn-primary"
     >
+        <i class="fa-solid fa-magnifying-glass"></i>
         Identify Disease
     </a>
 
@@ -171,6 +172,15 @@
                 >
                     <i class="fa-solid fa-seedling"></i>
                     Manage My Field
+                </a>
+
+                <a
+                    href="{{ route('farmer.fertilizer') }}"
+                    class="btn btn-outline"
+                    style="color:#fff; border-color:rgba(255,255,255,0.3);"
+                >
+                    <i class="fa-solid fa-leaf"></i>
+                    Fertilizer Management
                 </a>
 
             </div>
@@ -386,6 +396,175 @@
                     across every estate in the region, in your
                     own language.
                 </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FARMER TOOLS
+========================================================= -->
+
+<section id="farmer-tools">
+
+    <div class="container">
+
+        <div class="section-head reveal">
+
+            <span class="eyebrow">
+                Farmer Tools
+            </span>
+
+            <h2>
+                Everything you need to manage your plantation
+            </h2>
+
+            <p>
+                Manage fertilizer applications, reminders, disease
+                records, farm reports and weather prediction from
+                one simple platform.
+            </p>
+
+        </div>
+
+        <div class="features-grid stagger">
+
+            <!-- 1. FERTILIZER MANAGEMENT -->
+
+            <div class="feature-card reveal" style="--i:0">
+
+                <div class="feature-icon">🌿</div>
+
+                <h3>Fertilizer Management</h3>
+
+                <p>
+                    Record fertilizers used in your plantation,
+                    including quantity, unit, application date
+                    and notes.
+                </p>
+
+                <a
+                    href="{{ route('farmer.fertilizer') }}"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    Manage Fertilizer
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <!-- 2. FERTILIZER REMINDER -->
+
+            <div class="feature-card reveal" style="--i:1">
+
+                <div class="feature-icon">🔔</div>
+
+                <h3>Fertilizer Reminder</h3>
+
+                <p>
+                    Keep track of your next fertilizer application
+                    date and manage upcoming fertilizer reminders.
+                </p>
+
+                <a
+                    href="{{ route('farmer.fertilizer') }}"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    View Reminders
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <!-- 3. DISEASE HISTORY -->
+
+            <div
+                id="disease-history"
+                class="feature-card reveal"
+                style="--i:2"
+            >
+
+                <div class="feature-icon">🩺</div>
+
+                <h3>Disease History</h3>
+
+                <p>
+                    Review previous disease identification results,
+                    selected symptoms and analysis dates.
+                </p>
+
+                <a
+                    href="#disease-history"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    View History
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <!-- 4. FARM REPORTS -->
+
+            <div
+                id="farm-reports"
+                class="feature-card reveal"
+                style="--i:3"
+            >
+
+                <div class="feature-icon">📊</div>
+
+                <h3>Farm Reports</h3>
+
+                <p>
+                    Get an organized overview of field details,
+                    fertilizer applications and disease records.
+                </p>
+
+                <a
+                    href="#farm-reports"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    View Reports
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <!-- 5. WEATHER PREDICTION -->
+
+            <div class="feature-card reveal" style="--i:4">
+
+                <div class="feature-icon">🌦️</div>
+
+                <h3>Weather Prediction</h3>
+
+                <p>
+                    Check temperature, rainfall, humidity and other
+                    weather conditions to help plan plantation
+                    activities.
+                </p>
+
+                <a
+                    href="weather.html"
+                    class="btn btn-primary"
+                    style="margin-top:16px;"
+                >
+                    Check Weather
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
 
             </div>
 
@@ -944,9 +1123,202 @@
             Manage Field
         </a>
 
+        <a
+            href="{{ route('farmer.fertilizer') }}"
+            class="btn btn-outline"
+            style="
+                color:#fff;
+                border-color:rgba(255,255,255,0.35);
+            "
+        >
+            Manage Fertilizer
+        </a>
+
     </div>
 
 </div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer
+    class="farmer-footer"
+    style="
+        margin-top:80px;
+        padding:55px 0 25px;
+        background:var(--forest);
+        color:#fff;
+    "
+>
+
+    <div class="container">
+
+        <div
+            style="
+                display:grid;
+                grid-template-columns:2fr 1fr 1fr 1fr;
+                gap:40px;
+                align-items:start;
+            "
+        >
+
+            <div>
+
+                <h3 style="margin-bottom:12px; color:#fff;">
+                    Cardo-Fer
+                </h3>
+
+                <p
+                    style="
+                        max-width:420px;
+                        color:rgba(255,255,255,0.70);
+                        line-height:1.7;
+                        margin:0;
+                    "
+                >
+                    AI-powered tools for smarter cardamom farming,
+                    disease identification, field management,
+                    fertilizer planning and weather prediction.
+                </p>
+
+            </div>
+
+
+            <!-- FARMER -->
+
+            <div>
+
+                <h4 style="color:#fff; margin-bottom:16px;">
+                    Farmer
+                </h4>
+
+                <a href="{{ route('farmerhome') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Home
+                </a>
+
+                <a href="{{ route('farmer.field') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Add Field Details
+                </a>
+
+                <a href="{{ route('disease.identification') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Disease Identification
+                </a>
+
+            </div>
+
+
+            <!-- FARMER FEATURES -->
+
+            <div>
+
+                <h4 style="color:#fff; margin-bottom:16px;">
+                    Farmer Features
+                </h4>
+
+                <a href="{{ route('farmer.fertilizer') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Fertilizer Management
+                </a>
+
+                <a href="{{ route('farmer.fertilizer') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Fertilizer Reminder
+                </a>
+
+                <a href="#disease-history"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Disease History
+                </a>
+
+                <a href="#farm-reports"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Farm Reports
+                </a>
+
+                <a href="weather.html"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Weather Prediction
+                </a>
+
+            </div>
+
+
+            <!-- QUICK ACTION -->
+
+            <div>
+
+                <h4 style="color:#fff; margin-bottom:16px;">
+                    Quick Action
+                </h4>
+
+                <a href="{{ route('disease.identification') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Identify Disease
+                </a>
+
+                <a href="{{ route('farmer.field') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Manage Field
+                </a>
+
+                <a href="{{ route('farmer.fertilizer') }}"
+                   style="display:block; color:rgba(255,255,255,0.72); margin-bottom:10px;">
+                    Manage Fertilizer
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div
+            style="
+                margin-top:40px;
+                padding-top:20px;
+                border-top:1px solid rgba(255,255,255,0.12);
+                display:flex;
+                justify-content:space-between;
+                gap:20px;
+                flex-wrap:wrap;
+                color:rgba(255,255,255,0.55);
+                font-size:0.85rem;
+            "
+        >
+
+            <span>
+                © {{ date('Y') }} Cardo-Fer. All rights reserved.
+            </span>
+
+            <span>
+                Smarter farming. Healthier cardamom.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<style>
+    @media (max-width: 900px) {
+        .farmer-footer > .container > div:first-child {
+            grid-template-columns:1fr 1fr !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .farmer-footer > .container > div:first-child {
+            grid-template-columns:1fr !important;
+        }
+    }
+</style>
 
 
 @endsection

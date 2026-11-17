@@ -683,7 +683,7 @@
                         class="fert-label"
                         id="dosageAmountLabel"
                     >
-                        Amount per plant
+                        Dosage Amount
                     </label>
 
                     <input
@@ -731,32 +731,30 @@
                             Select unit
                         </option>
 
-                        {{-- Organic units --}}
                         <option
                             value="g"
-                            data-type="organic"
+                            {{ old('dosage_unit') === 'g' ? 'selected' : '' }}
                         >
                             Grams (g)
                         </option>
 
                         <option
                             value="kg"
-                            data-type="organic"
+                            {{ old('dosage_unit') === 'kg' ? 'selected' : '' }}
                         >
                             Kilograms (kg)
                         </option>
 
-                        {{-- Inorganic units --}}
                         <option
                             value="ml"
-                            data-type="inorganic"
+                            {{ old('dosage_unit') === 'ml' ? 'selected' : '' }}
                         >
                             Milliliters (ml)
                         </option>
 
                         <option
                             value="L"
-                            data-type="inorganic"
+                            {{ old('dosage_unit') === 'L' ? 'selected' : '' }}
                         >
                             Liters (L)
                         </option>
@@ -771,6 +769,10 @@
 
                     @enderror
 
+                    <div class="fert-dose-note">
+                        Example: 1 kg per plant, 25 kg per hectare, or 250 g per 100 L of water.
+                    </div>
+
                 </div>
 
 
@@ -779,7 +781,7 @@
                 ================================================== --}}
 
                 <div
-                    class="col-md-6 fert-hidden"
+                    class="col-md-6"
                     id="referenceQuantityGroup"
                 >
 
@@ -787,7 +789,7 @@
                         for="reference_quantity"
                         class="fert-label"
                     >
-                        Water Quantity
+                        Reference Quantity
                     </label>
 
                     <input
@@ -813,7 +815,7 @@
 
 
                 <div
-                    class="col-md-6 fert-hidden"
+                    class="col-md-6"
                     id="referenceUnitGroup"
                 >
 
@@ -821,7 +823,7 @@
                         for="reference_unit"
                         class="fert-label"
                     >
-                        Water Unit
+                        Reference Unit
                     </label>
 
                     <select
@@ -833,17 +835,44 @@
                         <option
                             value=""
                             disabled
-                            selected
+                            {{ old('reference_unit') ? '' : 'selected' }}
                         >
-                            Select unit
+                            Select reference
                         </option>
 
-                        <option value="L">
-                            Liters (L)
+                        <option
+                            value="plant"
+                            {{ old('reference_unit') === 'plant' ? 'selected' : '' }}
+                        >
+                            Per plant
                         </option>
 
-                        <option value="ml">
-                            Milliliters (ml)
+                        <option
+                            value="ha"
+                            {{ old('reference_unit') === 'ha' ? 'selected' : '' }}
+                        >
+                            Per hectare (ha)
+                        </option>
+
+                        <option
+                            value="acre"
+                            {{ old('reference_unit') === 'acre' ? 'selected' : '' }}
+                        >
+                            Per acre
+                        </option>
+
+                        <option
+                            value="L"
+                            {{ old('reference_unit') === 'L' ? 'selected' : '' }}
+                        >
+                            Per liter (L)
+                        </option>
+
+                        <option
+                            value="ml"
+                            {{ old('reference_unit') === 'ml' ? 'selected' : '' }}
+                        >
+                            Per milliliter (ml)
                         </option>
 
                     </select>
@@ -1153,21 +1182,21 @@
 
                                 @if($mapping->fertilizer)
 
-                                    @if($mapping->fertilizer->category === 'Organic')
+                                    {{ $mapping->fertilizer->dosage_amount }}
+                                    {{ $mapping->fertilizer->dosage_unit }}
 
-                                        {{ $mapping->fertilizer->dosage_amount }}
-                                        {{ $mapping->fertilizer->dosage_unit }}
-                                        / plant
-
-                                    @else
-
-                                        {{ $mapping->fertilizer->dosage_amount }}
-                                        {{ $mapping->fertilizer->dosage_unit }}
+                                    @if(
+                                        $mapping->fertilizer->reference_quantity &&
+                                        $mapping->fertilizer->reference_unit
+                                    )
 
                                         /
-
                                         {{ $mapping->fertilizer->reference_quantity }}
                                         {{ $mapping->fertilizer->reference_unit }}
+
+                                    @elseif($mapping->fertilizer->category === 'Organic')
+
+                                        / plant
 
                                     @endif
 
@@ -1305,42 +1334,32 @@
 
                                 <span class="fert-amount">
 
-                                    @if ($fertilizer->category === 'Organic')
+                                    @if (
+                                        $fertilizer->dosage_amount &&
+                                        $fertilizer->dosage_unit
+                                    )
 
-                                        @if ($fertilizer->dosage_amount && $fertilizer->dosage_unit)
+                                        {{ $fertilizer->dosage_amount }}
+                                        {{ $fertilizer->dosage_unit }}
 
-                                            {{ $fertilizer->dosage_amount }}
-                                            {{ $fertilizer->dosage_unit }}
+                                        @if (
+                                            $fertilizer->reference_quantity &&
+                                            $fertilizer->reference_unit
+                                        )
+
+                                            /
+                                            {{ $fertilizer->reference_quantity }}
+                                            {{ $fertilizer->reference_unit }}
+
+                                        @elseif($fertilizer->category === 'Organic')
+
                                             / plant
-
-                                        @else
-
-                                            Not set
 
                                         @endif
 
                                     @else
 
-                                        @if (
-                                            $fertilizer->dosage_amount &&
-                                            $fertilizer->dosage_unit &&
-                                            $fertilizer->reference_quantity &&
-                                            $fertilizer->reference_unit
-                                        )
-
-                                            {{ $fertilizer->dosage_amount }}
-                                            {{ $fertilizer->dosage_unit }}
-
-                                            /
-
-                                            {{ $fertilizer->reference_quantity }}
-                                            {{ $fertilizer->reference_unit }}
-
-                                        @else
-
-                                            Not set
-
-                                        @endif
+                                        Not set
 
                                     @endif
 
@@ -1566,7 +1585,7 @@
                             class="fert-label"
                             id="editDosageAmountLabel"
                         >
-                            Amount per plant
+                            Dosage Amount
                         </label>
 
                         <input
@@ -1630,7 +1649,7 @@
                             for="edit_reference_quantity"
                             class="fert-label"
                         >
-                            Water Quantity
+                            Reference Quantity
                         </label>
 
                         <input
@@ -1655,7 +1674,7 @@
                             for="edit_reference_unit"
                             class="fert-label"
                         >
-                            Water Unit
+                            Reference Unit
                         </label>
 
                         <select
@@ -1664,12 +1683,24 @@
                             class="form-select"
                         >
 
+                            <option value="plant">
+                                Per plant
+                            </option>
+
+                            <option value="ha">
+                                Per hectare (ha)
+                            </option>
+
+                            <option value="acre">
+                                Per acre
+                            </option>
+
                             <option value="L">
-                                Liters (L)
+                                Per liter (L)
                             </option>
 
                             <option value="ml">
-                                Milliliters (ml)
+                                Per milliliter (ml)
                             </option>
 
                         </select>
@@ -1863,199 +1894,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateAddFormFields() {
 
-        const category = categorySelect.value;
-
-
-        if (category === 'Organic') {
-
-            /*
-             * Organic:
-             *
-             * Amount per plant
-             * + g / kg
-             */
-
-            dosageAmountLabel.textContent =
-                'Amount per plant';
-
-
-            referenceQuantityGroup
-                .classList
-                .add('fert-hidden');
-
-            referenceUnitGroup
-                .classList
-                .add('fert-hidden');
-
-
-            referenceQuantity.required = false;
-
-            referenceUnit.required = false;
-
-            referenceQuantity.value = '';
-
-            referenceUnit.value = '';
-
-
-            dosageAmount.required = true;
-
-            dosageUnit.required = true;
-
-
-            /*
-             * Disable inorganic unit options
-             */
-
-            Array.from(
-                dosageUnit.options
-            ).forEach(function (option) {
-
-                if (
-                    option.dataset.type === 'inorganic'
-                ) {
-                    option.disabled = true;
-                    option.hidden = true;
-                }
-
-                if (
-                    option.dataset.type === 'organic'
-                ) {
-                    option.disabled = false;
-                    option.hidden = false;
-                }
-
-            });
-
-
-            /*
-             * Make sure selected unit is organic
-             */
-
-            if (
-                dosageUnit.value !== 'g' &&
-                dosageUnit.value !== 'kg'
-            ) {
-
-                dosageUnit.value = '';
-
-            }
-
-        }
-
-
-        else if (category === 'Inorganic') {
-
-            /*
-             * Inorganic:
-             *
-             * Dosage
-             * + ml / L
-             *
-             * Water quantity
-             * + L / ml
-             */
-
-            dosageAmountLabel.textContent =
-                'Dosage';
-
-
-            referenceQuantityGroup
-                .classList
-                .remove('fert-hidden');
-
-            referenceUnitGroup
-                .classList
-                .remove('fert-hidden');
-
-
-            dosageAmount.required = true;
-
-            dosageUnit.required = true;
-
-            referenceQuantity.required = true;
-
-            referenceUnit.required = true;
-
-
-            /*
-             * Disable organic unit options
-             */
-
-            Array.from(
-                dosageUnit.options
-            ).forEach(function (option) {
-
-                if (
-                    option.dataset.type === 'organic'
-                ) {
-                    option.disabled = true;
-                    option.hidden = true;
-                }
-
-                if (
-                    option.dataset.type === 'inorganic'
-                ) {
-                    option.disabled = false;
-                    option.hidden = false;
-                }
-
-            });
-
-
-            /*
-             * Make sure selected unit is inorganic
-             */
-
-            if (
-                dosageUnit.value !== 'ml' &&
-                dosageUnit.value !== 'L'
-            ) {
-
-                dosageUnit.value = '';
-
-            }
-
-        }
-
-
-        else {
-
-            /*
-             * No category selected yet
-             */
-
-            referenceQuantityGroup
-                .classList
-                .add('fert-hidden');
-
-            referenceUnitGroup
-                .classList
-                .add('fert-hidden');
-
-
-            dosageAmount.required = true;
-
-            dosageUnit.required = true;
-
-            referenceQuantity.required = false;
-
-            referenceUnit.required = false;
-
-
-            Array.from(
-                dosageUnit.options
-            ).forEach(function (option) {
-
-                if (
-                    option.dataset.type
-                ) {
-                    option.disabled = false;
-                    option.hidden = false;
-                }
-
-            });
-
-        }
+        dosageAmountLabel.textContent = 'Dosage Amount';
+
+        referenceQuantityGroup
+            .classList
+            .remove('fert-hidden');
+
+        referenceUnitGroup
+            .classList
+            .remove('fert-hidden');
+
+        dosageAmount.required = true;
+        dosageUnit.required = true;
+        referenceQuantity.required = true;
+        referenceUnit.required = true;
 
     }
 
@@ -2167,95 +2019,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /*
-     * Update Edit modal depending on category
+     * Update Edit modal fields
      */
 
     function updateEditFields() {
 
-        const category =
-            editCategory.value;
+        editDosageAmountLabel.textContent =
+            'Dosage Amount';
 
+        editReferenceQuantityGroup
+            .classList
+            .remove('fert-hidden');
 
-        if (category === 'Organic') {
+        editReferenceUnitGroup
+            .classList
+            .remove('fert-hidden');
 
-            editDosageAmountLabel.textContent =
-                'Amount per plant';
+        editReferenceQuantity.required = true;
+        editReferenceUnit.required = true;
 
+        editDosageUnit.innerHTML = `
+            <option value="g">
+                Grams (g)
+            </option>
 
-            editReferenceQuantityGroup
-                .classList
-                .add('fert-hidden');
+            <option value="kg">
+                Kilograms (kg)
+            </option>
 
+            <option value="ml">
+                Milliliters (ml)
+            </option>
 
-            editReferenceUnitGroup
-                .classList
-                .add('fert-hidden');
-
-
-            editReferenceQuantity.required =
-                false;
-
-
-            editReferenceUnit.required =
-                false;
-
-
-            editReferenceQuantity.value =
-                '';
-
-
-            editReferenceUnit.value =
-                '';
-
-
-            editDosageUnit.innerHTML = `
-                <option value="g">
-                    Grams (g)
-                </option>
-
-                <option value="kg">
-                    Kilograms (kg)
-                </option>
-            `;
-
-        }
-
-
-        else {
-
-            editDosageAmountLabel.textContent =
-                'Dosage';
-
-
-            editReferenceQuantityGroup
-                .classList
-                .remove('fert-hidden');
-
-
-            editReferenceUnitGroup
-                .classList
-                .remove('fert-hidden');
-
-
-            editReferenceQuantity.required =
-                true;
-
-
-            editReferenceUnit.required =
-                true;
-
-
-            editDosageUnit.innerHTML = `
-                <option value="ml">
-                    Milliliters (ml)
-                </option>
-
-                <option value="L">
-                    Liters (L)
-                </option>
-            `;
-
-        }
+            <option value="L">
+                Liters (L)
+            </option>
+        `;
 
     }
 

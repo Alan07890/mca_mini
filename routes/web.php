@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FarmerController;
+use App\Http\Controllers\FarmerWeatherController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -83,6 +84,28 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::delete('/users/{id}', [AdminController::class, 'user_delete'])
         ->name('user_delete');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Activity Report
+    |--------------------------------------------------------------------------
+    */
+    Route::get(
+        '/activity-report',
+        [AdminController::class, 'analysisHistory']
+    )->name('admin.activity-report');
+
+
+    Route::get(
+        '/activity-report/export/excel',
+        [AdminController::class, 'exportActivityReportExcel']
+    )->name('admin.activity-report.excel');
+
+    Route::get(
+        '/activity-report/export/pdf',
+        [AdminController::class, 'exportActivityReportPdf']
+    )->name('admin.activity-report.pdf');
 
 
     /*
@@ -239,8 +262,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
         '/fertilizer_mapping_delete/{id}',
         [AdminController::class, 'fertilizer_mapping_delete']
     )->name('fertilizer_mapping_delete');
-
-
     /*
     |--------------------------------------------------------------------------
     | Field Management
@@ -286,6 +307,32 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
+| Farmer Fertilizer Management
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/farmer/fertilizer',
+        [FarmerController::class, 'fertilizer']
+    )->name('farmer.fertilizer');
+
+    Route::get(
+        '/farmer/fertilizer-reminder',
+        [FarmerController::class, 'fertilizerReminder']
+    )->name('farmer.fertilizer.reminder');
+
+    Route::post(
+        '/farmer/fertilizer/store',
+        [FarmerController::class, 'fertilizerStore']
+    )->name('farmer.fertilizer.store');
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | Farmer Disease Identification Page
 |--------------------------------------------------------------------------
 */
@@ -294,6 +341,18 @@ Route::get(
     '/farmer/disease-identification',
     [FarmerController::class, 'diseaseIdentification']
 )->middleware('auth')->name('disease.identification');
+
+
+/*
+|--------------------------------------------------------------------------
+| Farmer Disease Analysis History
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/farmer/analysis-history',
+    [FarmerController::class, 'analysisHistory']
+)->middleware('auth')->name('farmer.analysis-history');
 
 
 /*
@@ -371,6 +430,15 @@ Route::middleware('auth')->group(function () {
     )->name('farmer.field.save');
 
 });
+    Route::get('/farmer/weather', [FarmerWeatherController::class, 'index'])
+    ->middleware('auth')
+    ->name('farmer.weather');
+    Route::get(
+    '/farmer/weather/locations',
+    [FarmerWeatherController::class, 'searchLocations']
+)
+    ->middleware('auth')
+    ->name('farmer.weather.locations');
 
 
 /*
